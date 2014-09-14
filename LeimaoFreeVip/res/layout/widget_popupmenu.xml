@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bkg_popup"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/tv_id"
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="@dimen/widget_popup_menu_item_height"
+        android:background="@drawable/bkg_item_menu"
+        android:gravity="center" />
+
+    <View
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="1px"
+        android:background="@color/divider_green_light" />
+
+    <TextView
+        android:id="@+id/tv_main"
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="@dimen/widget_popup_menu_item_height"
+        android:background="@drawable/bkg_item_menu"
+        android:gravity="center"
+        android:text="@string/title_main" />
+
+    <ImageView
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="1px"
+        android:contentDescription="@null"
+        android:paddingLeft="@dimen/widget_popup_menu_divider_padding"
+        android:paddingRight="@dimen/widget_popup_menu_divider_padding"
+        android:src="@color/divider_grey" />
+
+    <TextView
+        android:id="@+id/tv_record"
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="@dimen/widget_popup_menu_item_height"
+        android:background="@drawable/bkg_item_menu"
+        android:gravity="center"
+        android:text="@string/title_record" />
+
+    <ImageView
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="1px"
+        android:contentDescription="@null"
+        android:paddingLeft="@dimen/widget_popup_menu_divider_padding"
+        android:paddingRight="@dimen/widget_popup_menu_divider_padding"
+        android:src="@color/divider_grey" />
+
+    <TextView
+        android:id="@+id/tv_task"
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="@dimen/widget_popup_menu_item_height"
+        android:background="@drawable/bkg_item_menu"
+        android:gravity="center"
+        android:text="@string/title_task" />
+
+    <ImageView
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="1px"
+        android:contentDescription="@null"
+        android:paddingLeft="@dimen/widget_popup_menu_divider_padding"
+        android:paddingRight="@dimen/widget_popup_menu_divider_padding"
+        android:src="@color/divider_grey" />
+
+    <TextView
+        android:id="@+id/tv_recommend"
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="@dimen/widget_popup_menu_item_height"
+        android:background="@drawable/bkg_item_menu"
+        android:gravity="center"
+        android:text="@string/title_recommend" />
+
+    <ImageView
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="1px"
+        android:contentDescription="@null"
+        android:paddingLeft="@dimen/widget_popup_menu_divider_padding"
+        android:paddingRight="@dimen/widget_popup_menu_divider_padding"
+        android:src="@color/divider_grey" />
+
+    <TextView
+        android:id="@+id/tv_help"
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="@dimen/widget_popup_menu_item_height"
+        android:background="@drawable/bkg_item_menu"
+        android:gravity="center"
+        android:text="@string/title_help" />
+
+    <ImageView
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="1px"
+        android:contentDescription="@null"
+        android:paddingLeft="@dimen/widget_popup_menu_divider_padding"
+        android:paddingRight="@dimen/widget_popup_menu_divider_padding"
+        android:src="@color/divider_grey" />
+
+    <TextView
+        android:id="@+id/tv_about"
+        android:layout_width="@dimen/widget_popup_menu_item_width"
+        android:layout_height="@dimen/widget_popup_menu_item_height"
+        android:background="@drawable/bkg_item_menu"
+        android:gravity="center"
+        android:text="@string/title_about" />
+
+</LinearLayout>

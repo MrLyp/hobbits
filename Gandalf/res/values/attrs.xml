@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+
+    <declare-styleable name="AsyncImageView">
+        <attr name="loadingImageResource" format="reference" />
+        <attr name="loadFailedImageResource" format="reference" />
+    </declare-styleable>
+
+</resources>

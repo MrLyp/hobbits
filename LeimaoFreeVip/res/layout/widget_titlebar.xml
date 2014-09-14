@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <ImageButton
+        android:id="@+id/ib_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/titlebar_padding"
+        android:background="@null"
+        android:contentDescription="@null" />
+
+    <ImageButton
+        android:id="@+id/ib_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="@dimen/titlebar_padding"
+        android:background="@null"
+        android:contentDescription="@null" />
+
+    <ImageView
+        android:id="@+id/iv_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_margin="@dimen/titlebar_dot_margin"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_dot_red" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:textAppearance="@style/TitleTextAppearance" />
+
+</merge>

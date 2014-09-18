@@ -15,6 +15,7 @@ import me.hobbits.leimao.freevip.ui.widget.PopupMenu;
 import me.hobbits.leimao.freevip.ui.widget.ShareDialog;
 import me.hobbits.leimao.freevip.ui.widget.PopupMenu.OnPopupMenuClickListener;
 import me.hobbits.leimao.freevip.ui.widget.TitlebarView;
+import me.hobbits.leimao.freevip.util.GlobalValue;
 import me.hobbits.leimao.freevip.R;
 import android.content.Context;
 import android.content.Intent;
@@ -51,7 +52,7 @@ public class MainActivity extends BaseFragmentActivity {
 				switchFragment(mMainFragment);
 				mTitlebarView.setTitleText("");
 				mTitlebarView.setDotVisibility(View.VISIBLE);
-				mTitlebarView.setTitleImageResource(R.drawable.text_title);
+				mTitlebarView.setTitleImageResource(R.drawable.img_title);
 				mTitlebarView.setRightImageResource(R.drawable.ic_message);
 			} else if (index == PopupMenu.INDEX_RECORD) {
 				switchFragment(mRecordFragment);
@@ -114,35 +115,16 @@ public class MainActivity extends BaseFragmentActivity {
 		switchFragment(mMainFragment);
 		mTitlebarView.setTitleText("");
 		mTitlebarView.setDotVisibility(View.VISIBLE);
-		mTitlebarView.setTitleImageResource(R.drawable.text_title);
+		mTitlebarView.setTitleImageResource(R.drawable.img_title);
 		mTitlebarView.setRightImageResource(R.drawable.ic_message);
 
 		mPopupMenu = new PopupMenu(this);
-		mPopupMenu.setIdText("18701285225");
+		SignInSuccess info = GlobalValue.getIns(mContext).getUserInfo();
+		String id = "";
+		if (info != null)
+			id = "ID:" + info.getUser_id();
+		mPopupMenu.setIdText(id);
 		mPopupMenu.setOnPopupMenuClickListener(mOnPopupMenuClickListener);
-		final HttpConnectTask mTask = new HttpConnectTask(mContext,
-				HttpManager.getSignIn());
-		mTask.setShowCodeMsg(false);
-		mTask.setCallback(new Callback() {
-
-			@Override
-			public void onSuccess(HandlerMessageTask task, Object t) {
-				SignInSuccess signIn = (SignInSuccess) mTask.getResult();
-				Log.d("lyp", "iddddddddddddddd = " + signIn.getUser_id());
-			}
-
-			@Override
-			public void onFail(HandlerMessageTask task, Object t) {
-				ErrorResp error = mTask.getError();
-				if (error != null) {
-					Log.d("lyp", error.getError_message());
-					Toast.makeText(mContext, error.getError_message(),
-							Toast.LENGTH_SHORT).show();
-				}
-
-			}
-		});
-		mTask.execute();
 	};
 
 	@Override
@@ -158,13 +140,17 @@ public class MainActivity extends BaseFragmentActivity {
 		mTitlebarView.setOnRightButtonClickListener(mOnClickListener);
 	}
 
+	private long mLastExitTime;
+	
 	@Override
 	public void onBackPressed() {
-		if (mPopupMenu != null && mPopupMenu.isShowing()) {
-			mPopupMenu.dismiss();
-			return;
+		long now = System.currentTimeMillis();
+		if (now - mLastExitTime < 2000)
+			finish();
+		else {
+			mLastExitTime = now;
+			Toast.makeText(mContext, "再次点击退出程序", Toast.LENGTH_SHORT).show();
 		}
-		super.onBackPressed();
 	}
 
 	private void switchFragment(Fragment fragment) {

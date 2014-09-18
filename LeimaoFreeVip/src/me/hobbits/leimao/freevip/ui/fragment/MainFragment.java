@@ -1,13 +1,19 @@
 package me.hobbits.leimao.freevip.ui.fragment;
 
-import cn.gandalf.util.AsyncImageLoader;
-import cn.gandalf.widget.AsyncImageView;
+import me.hobbits.leimao.freevip.R;
+import me.hobbits.leimao.freevip.model.Balance;
+import me.hobbits.leimao.freevip.model.BannerList;
+import me.hobbits.leimao.freevip.model.Goods;
+import me.hobbits.leimao.freevip.model.GoodsList;
+import me.hobbits.leimao.freevip.net.HttpManager;
+import me.hobbits.leimao.freevip.task.QueryMainPageInfoTask;
 import me.hobbits.leimao.freevip.ui.activity.CreditActivity;
 import me.hobbits.leimao.freevip.ui.activity.ExchangeActivity;
-import me.hobbits.leimao.freevip.R;
+import me.hobbits.leimao.freevip.util.GlobalValue;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +23,22 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import cn.gandalf.task.HandlerMessageTask;
+import cn.gandalf.task.HandlerMessageTask.Callback;
+import cn.gandalf.task.HttpConnectTask;
+import cn.gandalf.widget.AsyncImageView;
 
 public class MainFragment extends BaseFragment {
 
-	private FrameLayout flCredit;
+	private GoodsList mGoodsList;
+	private BannerList mBannerList;
+	private Balance mBalance;
 
+	private FrameLayout flCredit;
 	private ListView lvVip;
-	private BaseAdapter adapterVip;
+	private VipAdapter mGoodsAdapter;
+	private TextView mAccount;
+	private TextView mTotalBalance;
 
 	private View.OnClickListener mOnClickListener = new View.OnClickListener() {
 
@@ -39,8 +54,9 @@ public class MainFragment extends BaseFragment {
 		@Override
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3) {
-			// intent need put extra
-			startActivity(new Intent(getActivity(), ExchangeActivity.class));
+			Intent intent = new Intent(getActivity(), ExchangeActivity.class);
+			intent.putExtra(ExchangeActivity.EXTRA_GOODS_ID, arg2);
+			startActivity(intent);
 		}
 	};
 
@@ -50,38 +66,88 @@ public class MainFragment extends BaseFragment {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		initData();
+	}
+
+	@Override
 	protected void initViews() {
 		super.initViews();
 		flCredit = (FrameLayout) findViewById(R.id.fl_credit);
 		flCredit.setOnClickListener(mOnClickListener);
 
-		adapterVip = new VipAdapter(getActivity());
+		mGoodsAdapter = new VipAdapter(getActivity());
 		lvVip = (ListView) findViewById(R.id.lv_vip);
-		lvVip.setAdapter(adapterVip);
+		lvVip.setAdapter(mGoodsAdapter);
 		lvVip.setOnItemClickListener(mOnItemClickListener);
+		mAccount = (TextView) findViewById(R.id.balance);
+		mTotalBalance = (TextView) findViewById(R.id.total);
+	}
+
+	private void initData() {
+		initContent();
+		QueryMainPageInfoTask mTask = new QueryMainPageInfoTask(mContext);
+		mTask.setCallback(new Callback() {
+
+			@Override
+			public void onSuccess(HandlerMessageTask task, Object t) {
+				initContent();
+			}
+
+			@Override
+			public void onFail(HandlerMessageTask task, Object t) {
+
+			}
+		});
+		mTask.execute();
+	}
+
+	private void initContent() {
+		mGoodsList = GlobalValue.getIns(mContext).getGoodsList();
+		if (mGoodsList != null) {
+			mGoodsAdapter.setData(mGoodsList);
+			mGoodsAdapter.notifyDataSetChanged();
+		}
+		mBalance = GlobalValue.getIns(mContext).getBalance();
+		if (mBalance != null) {
+			mAccount.setText("ÊàëÁöÑÁÇπÊï∞" + mBalance.getBalance());
+			mTotalBalance.setText("‰ªäÊó•ÊÄªËÆ°ÂèëÊîæÁÇπÊï∞\n" + mBalance.getToday_gold());
+		}
 	}
 
 	private class VipAdapter extends BaseAdapter {
 
 		private Context mContext;
+		private GoodsList mData;
 
 		public VipAdapter(Context context) {
 			mContext = context;
 		}
 
+		public void setData(GoodsList list) {
+			mData = list;
+		}
+
 		@Override
 		public int getCount() {
-			return 4;
+			if (mData != null)
+				return mData.size();
+			else
+				return 0;
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return new Object();
+			if (mData != null)
+				return mData.get(position);
+			else
+				return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			return 0;
+			return position;
 		}
 
 		@SuppressLint("InflateParams")
@@ -109,11 +175,17 @@ public class MainFragment extends BaseFragment {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
 
-			viewHolder.ivLogo.setImageUrlAndLoad("http://www.baidu.com/img/bdlogo.png");
-			viewHolder.tvTitle.setText("”≈ø·ª·‘±“ª∏ˆ‘¬");
-			viewHolder.tvLeft.setText("”‡319√˚∂Ó");
-			viewHolder.tvPoint.setText("–Ë10µ„ ˝");
-			viewHolder.ivTag.setVisibility(View.VISIBLE);
+			Object obj = getItem(position);
+			if (obj != null) {
+				Goods goods = (Goods) obj;
+				viewHolder.ivLogo.setImageUrlAndLoad("" + goods.getImg());
+				viewHolder.tvTitle.setText("" + goods.getName());
+				viewHolder.tvLeft.setText("‰Ωô" + goods.getQuantity() + "ÂêçÈ¢ù");
+				viewHolder.tvPoint.setText("ÈúÄ" + goods.getPrice() + "ÁÇπÊï∞");
+				viewHolder.ivTag
+						.setVisibility(goods.getFlag() == 0 ? View.INVISIBLE
+								: View.VISIBLE);
+			}
 
 			return convertView;
 		}

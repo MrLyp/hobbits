@@ -70,12 +70,19 @@ public class HttpConnectTask extends HandlerMessageTask {
 				ServerApi api = mParams.getServerApi();
 
 				mData = JsonUtils.parseJSONToObject(api.getResponse(), body);
-				if (mData == null)
+				if (mData == null) {
 					mError = JsonUtils.parseJSONToObject(ErrorResp.class, body);
+					return ECode.FAIL;
+				}
+				return ECode.SUCCESS;
 			}
 
 		} catch (Exception e) {
-			Log.e("lyp", "", e);
+			try {
+				mError = JsonUtils.parseJSONToObject(ErrorResp.class, body);
+			} catch (Exception ex) {
+
+			}
 			return ECode.FAIL;
 		}
 

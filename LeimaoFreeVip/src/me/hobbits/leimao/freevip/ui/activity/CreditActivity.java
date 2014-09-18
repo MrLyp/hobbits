@@ -1,9 +1,16 @@
 package me.hobbits.leimao.freevip.ui.activity;
 
+import com.mfgqsipin.Bxhtod;
+
+import cn.dm.android.DMOfferWall;
+import cn.waps.AppConnect;
+import me.hobbits.leimao.freevip.model.Task;
 import me.hobbits.leimao.freevip.ui.widget.TitlebarView;
 import me.hobbits.leimao.freevip.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +35,42 @@ public class CreditActivity extends BaseActivity {
 			}
 		}
 	};
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		initOfferWalls();
+	}
+
+	private void initOfferWalls() {
+		DMOfferWall.init(this, "96ZJ2vzgzeBz/wTBCV");
+		AppConnect
+				.getInstance("fae474acea708f29b58ca549d9c6514e", "waps", this);
+		Bxhtod.initGoogleContext(this, "8551bfb5d76985621430994362ab75c5");
+		Bxhtod.setCurrentUserID(this, "1234");
+		Bxhtod.setCustomActivity("com.mfgqsipin.BxhtodGoogleActivity");
+		Bxhtod.setCustomService("com.mfgqsipin.BxhtodGoogleService");
+	}
+
+	private void onTaskClick(Task task) {
+		if (task == null)
+			return;
+		if (task.getName().equals("domob")) {
+			DMOfferWall.getInstance(this).showOfferWall(this);
+		} else if (task.getName().equals("waps")) {
+			AppConnect.getInstance(this).showOffers(this);
+		} else if (task.getName().equals("adwo")) {
+			Bxhtod.showOffers(this);
+		} else if (task.getName().equals("adview")) {
+			startActivity(new Intent(this, LimeiWallActivity.class));
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		AppConnect.getInstance(this).close();
+	}
 
 	@Override
 	protected int getLayoutId() {

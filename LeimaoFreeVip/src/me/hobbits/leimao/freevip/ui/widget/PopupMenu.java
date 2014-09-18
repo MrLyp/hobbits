@@ -3,6 +3,7 @@ package me.hobbits.leimao.freevip.ui.widget;
 import me.hobbits.leimao.freevip.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -55,7 +56,9 @@ public class PopupMenu extends PopupWindow {
 		setContentView(getView(context));
 		setWidth(LayoutParams.WRAP_CONTENT);
 		setHeight(LayoutParams.WRAP_CONTENT);
+		setBackgroundDrawable(new ColorDrawable());
 		setOutsideTouchable(true);
+		setFocusable(true);
 	}
 
 	@SuppressLint("InflateParams")

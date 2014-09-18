@@ -7,67 +7,65 @@ import android.graphics.Bitmap;
 
 import cn.gandalf.util.BitmapUtils;
 
-import com.sina.weibo.sdk.WeiboSDK;
-import com.sina.weibo.sdk.api.IWeiboAPI;
 import com.sina.weibo.sdk.api.ImageObject;
-import com.sina.weibo.sdk.api.SendMessageToWeiboRequest;
-import com.sina.weibo.sdk.api.SendMultiMessageToWeiboRequest;
 import com.sina.weibo.sdk.api.TextObject;
 import com.sina.weibo.sdk.api.WebpageObject;
 import com.sina.weibo.sdk.api.WeiboMessage;
 import com.sina.weibo.sdk.api.WeiboMultiMessage;
-import com.sina.weibo.sdk.utils.Util;
+import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
+import com.sina.weibo.sdk.api.share.SendMessageToWeiboRequest;
+import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
+import com.sina.weibo.sdk.api.share.WeiboShareSDK;
+import com.sina.weibo.sdk.utils.Utility;
 
 public class WeiboManager {
-	private static final String APP_KEY = "1633550764"; // test
+	private static final String TAG = "WeiboManager";
+	public static final String APP_KEY = "4047600776";
 	private static final int THUMB_SIZE = 300;
-	private static WeiboManager mIns;
-	private IWeiboAPI mApi;
-
-	public static WeiboManager getIns(Context context) {
-		if (mIns == null)
-			mIns = new WeiboManager(context);
-		return mIns;
-	}
+	public IWeiboShareAPI mApi;
+	private Context mContext;
 
 	public WeiboManager(Context context) {
-		mApi = WeiboSDK.createWeiboAPI(context, APP_KEY);
-		regWeibo();
+		mApi = WeiboShareSDK.createWeiboAPI(context, WeiboManager.APP_KEY);
+		mContext = context;
 	}
 
-	public IWeiboAPI getApi() {
-		return mApi;
-	}
-
-	public void sendMessage(Activity activity, ShareContent content) {
+	public void sendMessage(ShareContent content) {
+		if (mApi == null || mContext == null)
+			return;
 		regWeibo();
 		WeiboMultiMessage msg = new WeiboMultiMessage();
 		msg.textObject = wrapTextObj(content.mergeAllText());
 		ImageObject imgObj = wrapImageObject(content.imagePath);
 		msg.imageObject = imgObj;
-		msg.mediaObject = wrapWebpageObj(content);
 
 		SendMultiMessageToWeiboRequest req = new SendMultiMessageToWeiboRequest();
 		req.transaction = buildTransaction("weibo_");
 		req.multiMessage = msg;
-		mApi.sendRequest(activity, req);
+		mApi.sendRequest(req);
 	}
 
-	public void sendMessage2(Activity activity, ShareContent content) {
+	public void sendMessage2(ShareContent content) {
+		if (mApi == null || mContext == null)
+			return;
 		regWeibo();
 		WeiboMessage msg = new WeiboMessage();
 		msg.mediaObject = wrapWebpageObj(content);
 		SendMessageToWeiboRequest req = new SendMessageToWeiboRequest();
 		req.transaction = buildTransaction("weibo_");
 		req.message = msg;
-		mApi.sendRequest(activity, req);
+		mApi.sendRequest(req);
 	}
 
 	private void regWeibo() {
+		if (mApi == null)
+			return;
 		mApi.registerApp();
 	}
 
 	public boolean isSupportSdk() {
+		if (mApi == null)
+			return false;
 		return mApi.isWeiboAppSupportAPI();
 	}
 
@@ -77,8 +75,7 @@ public class WeiboManager {
 	}
 
 	private ImageObject wrapImageObject(String path) {
-		Bitmap bmp = BitmapUtils.createImageThumbWithLim(path, THUMB_SIZE,
-				THUMB_SIZE);
+		Bitmap bmp = BitmapUtils.getResizedBitmapFromFile(mContext, path);
 		if (bmp == null)
 			return null;
 		ImageObject imageObject = new ImageObject();
@@ -94,12 +91,13 @@ public class WeiboManager {
 
 	private WebpageObject wrapWebpageObj(ShareContent sc) {
 		WebpageObject mediaObject = new WebpageObject();
-		mediaObject.identify = Util.generateId();
+		mediaObject.identify = Utility.generateGUID();
 		mediaObject.title = "" + sc.title;
 		mediaObject.description = "" + sc.content;
-		mediaObject.defaultText = "webpage";
+		mediaObject.defaultText = "webpageÄ¬ÈÏÎÄ°¸";
 
-		Bitmap bmp = BitmapUtils.createImageThumbWithLim(sc.imagePath, 200, 200);
+		Bitmap bmp = BitmapUtils
+				.createImageThumbWithLim(sc.imagePath, THUMB_SIZE, THUMB_SIZE);
 		if (bmp != null)
 			mediaObject.setThumbImage(bmp);
 		if (sc.url != null)

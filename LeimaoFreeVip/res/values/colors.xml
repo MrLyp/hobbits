@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="bkg_grey">#f8f7f7</color>
+    <color name="bkg_grey">#f6f6f6</color>
     <color name="bkg_green_light">#a1d68a</color>
-    
     <color name="divider_green">#76ba58</color>
     <color name="divider_green_light">#a2d78b</color>
     <color name="divider_grey">#e2e2e2</color>
-    
-    <color name="text_green_dark">#427b29</color> 
+    <color name="text_green_dark">#427b29</color>
     <color name="text_green_light">#9bd084</color>
-    
+
     <!-- 深绿色用在首页背景是绿色的header，浅绿色用在背景是白色的列表和按钮 -->
+
+    <color name="bkg_green">#85ce63</color>
+    <color name="bkg_gray">#f6f6f6</color>
+    <color name="text_gray">#7d7d7d</color>
 
 </resources>

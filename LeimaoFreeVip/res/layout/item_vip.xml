@@ -26,14 +26,15 @@
                 android:layout_centerVertical="true"
                 android:contentDescription="@null"
                 android:scaleType="center"
-                app:loadingImageResource="@drawable/ic_iqiyi" />
+                app:loadingImageResource="@drawable/img_video_loading" />
 
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:textColor="@color/text_green_light" />
             <!-- 小绿色 -->
         </RelativeLayout>
 
@@ -46,7 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true" />
+                android:layout_centerVertical="true"
+                android:textColor="@color/text_gray" />
             <!-- 小灰色 -->
 
             <TextView

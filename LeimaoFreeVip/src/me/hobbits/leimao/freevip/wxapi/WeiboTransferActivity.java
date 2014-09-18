@@ -4,12 +4,15 @@ import me.hobbits.leimao.freevip.util.ShareUtils.ShareContent;
 import me.hobbits.leimao.freevip.util.WeiboManager;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 
-import com.sina.weibo.sdk.api.BaseResponse;
-import com.sina.weibo.sdk.api.IWeiboHandler;
+import com.sina.weibo.sdk.api.share.BaseResponse;
+import com.sina.weibo.sdk.api.share.IWeiboHandler;
+import com.sina.weibo.sdk.constant.WBConstants;
 
 public class WeiboTransferActivity extends Activity implements
 		IWeiboHandler.Response {
+	private static final String TAG = "WeiboTransferActivity";
 
 	public static final String ACTION_SEND_MSG = "action.send.weibo.msg";
 	public static final String ACTION_MSG_CBK = "com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY";
@@ -21,7 +24,8 @@ public class WeiboTransferActivity extends Activity implements
 	protected void onCreate(android.os.Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Intent intent = getIntent();
-		mWeibo = WeiboManager.getIns(this);
+
+		mWeibo = new WeiboManager(this);
 
 		if (ACTION_SEND_MSG.equals(intent.getAction())) {
 
@@ -31,9 +35,10 @@ public class WeiboTransferActivity extends Activity implements
 				return;
 			}
 			mContent = (ShareContent) objData;
-			mWeibo.sendMessage(this, mContent);
+			mWeibo.sendMessage(mContent);
 		} else if (ACTION_MSG_CBK.equals(intent.getAction())) {
-			mWeibo.getApi().responseListener(intent, this);
+			// mWeibo.getApi().responseListener(intent, this);
+			mWeibo.mApi.handleWeiboResponse(intent, this);
 		}
 		finish();
 	}
@@ -41,19 +46,20 @@ public class WeiboTransferActivity extends Activity implements
 	@Override
 	protected void onNewIntent(Intent intent) {
 		super.onNewIntent(intent);
-		mWeibo = WeiboManager.getIns(this);
-		mWeibo.getApi().responseListener(intent, this);
+		mWeibo.mApi.handleWeiboResponse(intent, this);
 	}
 
 	@Override
 	public void onResponse(BaseResponse baseResp) {
 		switch (baseResp.errCode) {
-		case com.sina.weibo.sdk.constant.Constants.ErrorCode.ERR_OK:
+		case WBConstants.ErrorCode.ERR_OK:
 			break;
-		case com.sina.weibo.sdk.constant.Constants.ErrorCode.ERR_CANCEL:
+		case WBConstants.ErrorCode.ERR_CANCEL:
+			Log.d(TAG,baseResp.errMsg + " "+ baseResp.toString());
 			break;
-		case com.sina.weibo.sdk.constant.Constants.ErrorCode.ERR_FAIL:
+		case WBConstants.ErrorCode.ERR_FAIL:
+			Log.d(TAG,baseResp.errMsg + " "+ baseResp.toString());
 			break;
 		}
-	};
+	}
 }

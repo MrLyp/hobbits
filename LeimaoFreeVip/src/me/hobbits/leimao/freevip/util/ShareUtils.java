@@ -7,6 +7,10 @@ import android.content.Intent;
 import android.net.Uri;
 
 public class ShareUtils {
+	
+	public static enum ShareChannel {
+		WECHAT, FRIEND_CIRCLE, QQ, WEIBO
+	}
 	public static class ShareContent implements Serializable {
 		private static final long serialVersionUID = -6992225722166865874L;
 		private static final int MAX_TEXT_LENGTH = 137;

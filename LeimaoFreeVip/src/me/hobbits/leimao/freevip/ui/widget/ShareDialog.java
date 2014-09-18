@@ -2,6 +2,7 @@ package me.hobbits.leimao.freevip.ui.widget;
 
 import cn.gandalf.util.ScreenUtils;
 import me.hobbits.leimao.freevip.R;
+import me.hobbits.leimao.freevip.util.ShareUtils.ShareChannel;
 import me.hobbits.leimao.freevip.util.WeixinManager;
 import android.app.Dialog;
 import android.content.Context;
@@ -33,7 +34,7 @@ public class ShareDialog extends Dialog implements
 		WindowManager.LayoutParams lp = dialogWindow.getAttributes();
 		lp.width = (int) (ScreenUtils.getScreenWidth(context) * 0.8f);
 		dialogWindow.setAttributes(lp);
-		
+
 	}
 
 	private void initViews() {
@@ -53,22 +54,37 @@ public class ShareDialog extends Dialog implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_wechat:
-			Log.d("lyp","share to wechat");
+			Log.d("lyp", "share to wechat");
 			break;
 		case R.id.tv_friend_circle:
-			Log.d("lyp","share to friend_circle");
+			Log.d("lyp", "share to friend_circle");
 			break;
 		case R.id.tv_qq:
-			Log.d("lyp","share to qq");
+			Log.d("lyp", "share to qq");
 			break;
 		case R.id.tv_weibo:
-			Log.d("lyp","share to weibo");
+			Log.d("lyp", "share to weibo");
 			break;
 		case R.id.iv_close:
 			dismiss();
 			break;
 		default:
 			break;
+		}
+	}
+
+	private void onShare(ShareChannel channel) {
+		switch (channel) {
+		case WECHAT:
+			break;
+		case FRIEND_CIRCLE:
+			break;
+		case QQ:
+			break;
+		case WEIBO:
+			break;
+		default:
+			return;
 		}
 	}
 

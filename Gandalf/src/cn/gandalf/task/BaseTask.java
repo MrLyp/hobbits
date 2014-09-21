@@ -1,71 +1,39 @@
 package cn.gandalf.task;
 
-import java.util.concurrent.Executor;
+import java.util.HashMap;
+import java.util.Map;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.res.Resources;
 import android.os.AsyncTask;
-import android.os.Build.VERSION;
-import android.os.Build.VERSION_CODES;
 import android.util.Log;
+import android.widget.Toast;
+import cn.gandalf.exception.CustomException;
+import cn.gandalf.exception.ECode;
 
-/**
- * a base class for all task.
- */
-public abstract class BaseTask<A, B, C> extends AsyncTask<A, B, C> {
+public abstract class BaseTask extends AsyncTask<Void, Object, Object> {
 	private static final String TAG = "BaseTask";
 	protected Context mContext;
 	protected Resources mRes;
-	/** whether to finish current activity when the ProgressDialog is canceled. */
-	private boolean mFinishActivityOnCancel = false;
-	/** whether show the progress dialog when task is running in background */
 	private boolean mShowProgressDialog = false;
-	/** whether to cancel this task when this Dialog is canceled */
-	private boolean mFinshTaskOnCancel = true;
-	/** whether the task is cancelable **/
-	private boolean mTaskCancelAble = true;
-	private String mMessage;
-	private String mTitle;
 	private Dialog mProgressDialog;
-	private Executor mCustomExecutor;
+	private boolean mShowCodeMsg = true;
+	protected String mCodeMsg = null;
+	private Map<Integer, Object> mCodeMsgs = new HashMap<Integer, Object>();
+	private static Map<Integer, Object> mDefaultCodeMsgs;
+
+	protected Callback mCallback;
 
 	public BaseTask(Context context) {
-		this(context, false);
-	}
-
-	public BaseTask(Context context, boolean finishActivityOnCancel) {
-		this.mFinishActivityOnCancel = finishActivityOnCancel;
 		this.mContext = context;
 		mRes = context.getResources();
-		mTitle = "消息处理";
-		mMessage = "连接服务器";
-		mCustomExecutor = getCustomExecutor();
 	}
 
 	public void setShowProgessDialog(boolean f) {
 		mShowProgressDialog = f;
-	}
-
-	public void setFinishActivityOnCancel(boolean f) {
-		mFinishActivityOnCancel = f;
-	}
-
-	public void setFinshTaskOnCancel(boolean f) {
-		mFinshTaskOnCancel = f;
-	}
-
-	public void setTaskCancelAble(boolean b) {
-		mTaskCancelAble = b;
-	}
-
-	public void setCustomExecutor(Executor executor) {
-		mCustomExecutor = executor;
 	}
 
 	@Override
@@ -78,10 +46,6 @@ public abstract class BaseTask<A, B, C> extends AsyncTask<A, B, C> {
 
 	@Override
 	protected void onCancelled() {
-		dismissDialog();
-	}
-
-	protected void onPostExecute(C result) {
 		dismissDialog();
 	}
 
@@ -99,21 +63,6 @@ public abstract class BaseTask<A, B, C> extends AsyncTask<A, B, C> {
 		try {
 			if (mProgressDialog == null) {
 				mProgressDialog = createLoadingDialog();
-				mProgressDialog.setCancelable(mTaskCancelAble);
-				mProgressDialog.setOnCancelListener(new OnCancelListener() {
-					@Override
-					public void onCancel(DialogInterface dialog) {
-						if (mFinishActivityOnCancel) {
-							finishContext();
-						}
-						if (mFinshTaskOnCancel) {
-							cancel(true);
-							if (mOnCancelListener != null) {
-								mOnCancelListener.onCancel(BaseTask.this);
-							}
-						}
-					}
-				});
 			}
 			if (!mProgressDialog.isShowing())
 				mProgressDialog.show();
@@ -123,15 +72,8 @@ public abstract class BaseTask<A, B, C> extends AsyncTask<A, B, C> {
 	}
 
 	protected Dialog createLoadingDialog() {
-		// use top parent context to create the dialog. since the dialog should
-		// not appear if the activity is in a
-		// TabHost.
 		ProgressDialog progressDialog = new ProgressDialog(
 				getTopParent((Activity) mContext));
-		if (mTitle != null)
-			progressDialog.setTitle(mTitle);
-		if (mMessage != null)
-			progressDialog.setMessage(mMessage);
 		return progressDialog;
 	}
 
@@ -150,20 +92,6 @@ public abstract class BaseTask<A, B, C> extends AsyncTask<A, B, C> {
 		}
 	}
 
-	public void setLoadingTitle(String title) {
-		mTitle = title;
-		if (mProgressDialog instanceof ProgressDialog) {
-			((ProgressDialog) mProgressDialog).setTitle(mTitle);
-		}
-	}
-
-	public void setLoadingMessage(String message) {
-		mMessage = message;
-		if (mProgressDialog instanceof ProgressDialog) {
-			((ProgressDialog) mProgressDialog).setMessage(message);
-		}
-	}
-
 	private boolean mIsCanceled = false;
 
 	public void cancel() {
@@ -174,27 +102,140 @@ public abstract class BaseTask<A, B, C> extends AsyncTask<A, B, C> {
 	public boolean isCancelRequested() {
 		return mIsCanceled;
 	}
-
-	private OnTaskCancelListener mOnCancelListener;
-
-	public void setOnCancelListener(OnTaskCancelListener l) {
-		mOnCancelListener = l;
+	
+	static {
+		mDefaultCodeMsgs = new HashMap<Integer, Object>();
+		mDefaultCodeMsgs.put(ECode.SUCCESS, "");
+		mDefaultCodeMsgs.put(ECode.FAIL, "网络连接失败，请稍后重试");
 	}
 
-	public static interface OnTaskCancelListener {
-		public void onCancel(BaseTask task);
+	public static void setDefaultCodeMsg(int code, Object value) {
+		mDefaultCodeMsgs.put(code, value);
 	}
 
-	@SuppressLint("NewApi")
-	public AsyncTask<A, B, C> execute(A params) {
-		if (mCustomExecutor != null
-				&& VERSION.SDK_INT > VERSION_CODES.HONEYCOMB)
-			return super.executeOnExecutor(mCustomExecutor, params);
+	@Override
+	protected void onPostExecute(Object result) {
+		processResult(result);
+		dismissDialog();
+		super.onPostExecute(result);
+	}
+
+	protected void processResult(Object result) {
+		if (isCancelRequested()) {
+			return;
+		}
+		int code = 0;
+		if (result == null)
+			result = ECode.FAIL;
+		if (result.equals(ECode.CANCELED)) {
+			return;
+		} else if (result instanceof CustomException) {
+			CustomException e = (CustomException) result;
+			code = e.getCode();
+		} else if (result instanceof Integer) {
+			code = (Integer) result;
+		} else {
+			code = ECode.FAIL;
+		}
+
+		mCodeMsg = getCodeMsg(code);
+		if (mCodeMsg == null)
+			mCodeMsg = getCodeMsg(ECode.FAIL);
+		if (mShowCodeMsg && mCodeMsg != null && mCodeMsg.length() > 0)
+			showResultMessage(mCodeMsg);
+		if (code == ECode.SUCCESS || code == ECode.SUCCESS_LAST_TIME) {
+			if (mCallback != null)
+				mCallback.onSuccess(this, code);
+		} else {
+			if (mCodeMsg == null)
+				Log.e(TAG, "Error code message should not be null." + code
+						+ " " + this.getClass().getSimpleName());
+			if (mCallback != null)
+				mCallback.onFail(this, code);
+		}
+	}
+
+	protected void showResultMessage(String codeMsg) {
+		Toast.makeText(mContext, codeMsg,Toast.LENGTH_SHORT).show();
+	}
+
+	private String getDefaultCodeMsg(int code) {
+		Object o = mDefaultCodeMsgs.get(code);
+		return convertCodeMsg(o);
+	}
+
+	public String getCodeMsg(int code) {
+		Object o = mCodeMsgs.get(code);
+		if (o != null)
+			return convertCodeMsg(o);
 		else
-			return super.execute(params);
+			return getDefaultCodeMsg(code);
 	}
 
-	protected Executor getCustomExecutor() {
+	private String convertCodeMsg(Object o) {
+		if (o == null)
+			return null;
+		if (o instanceof String)
+			return (String) o;
+		if (o instanceof Integer)
+			return mContext.getResources().getString((Integer) o);
+
 		return null;
 	}
+
+	public void setShowCodeMsg(boolean b) {
+		mShowCodeMsg = b;
+	}
+
+	public void setCodeMsg(Integer code, String msg) {
+		mCodeMsgs.put(code, msg);
+	}
+
+	public void setCodeMsg(Integer code, int res) {
+		mCodeMsgs.put(code, res);
+	}
+
+	public void disableCodeMsg(Integer code) {
+		mCodeMsgs.put(code, "");
+	}
+
+	public BaseTask setCallback(Callback callback) {
+		mCallback = callback;
+		return this;
+	}
+
+	public BaseTask wrapCallback(final Callback newCall) {
+		final Callback oldCall = mCallback;
+		mCallback = new Callback() {
+			@Override
+			public void onSuccess(BaseTask task, Object t) {
+				if (oldCall != null)
+					oldCall.onSuccess(task, t);
+				if (newCall != null)
+					newCall.onSuccess(task, t);
+
+			}
+
+			@Override
+			public void onFail(BaseTask task, Object t) {
+				if (oldCall != null)
+					oldCall.onFail(task, t);
+				if (newCall != null)
+					newCall.onFail(task, t);
+
+			}
+		};
+		return this;
+	}
+
+	public Callback getCallback() {
+		return mCallback;
+	}
+
+	public static interface Callback {
+		public void onSuccess(BaseTask task, Object t);
+
+		public void onFail(BaseTask task, Object t);
+	}
+
 }

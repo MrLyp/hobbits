@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="app_id_wanpu">fae474acea708f29b58ca549d9c6514e</string>
     <string name="app_name">免费高清视频</string>
     <string name="hello_world">Hello world!</string>
     <string name="title_main">首  页</string>
@@ -13,7 +14,7 @@
     <string name="title_task">任务明细</string>
     <string name="title_recommend">推荐好友</string>
     
-    <string name="about_company">雷猫™为霍比特（北京）科技有限公司旗下品牌 \n©2014   All Rights Reserved.</string>
+    <string name="about_company">看世界 版权所有 \n©2014   All Rights Reserved.</string>
     <string name="record_info">请牢记以上内容，切勿修改账户信息。如有因修改账户信息而产生的任何问题，雷猫团队恕不负责。\n客服QQ：123456\n工作时间：工作日10:00\-19:00（周末及法定节假日休息）</string>
     <string name="message_empty">没有新消息呢</string>
     <string name="exchange_info">说明\n1.兑换后会收到会员账户和密码，请勿修改\n2.如有任何疑问，请查看帮助页面\n3.客服QQ123456，工作时间：工作日10:00\-19:00（周末及法定节假日休息）\n4.本软件所提供的产品和服务均由看世界团队提供</string>

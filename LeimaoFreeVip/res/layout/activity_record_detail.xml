@@ -1,17 +1,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/me.hobbits.leimao.freevip"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bkg_grey"
     android:orientation="vertical" >
 
     <me.hobbits.leimao.freevip.ui.widget.TitlebarView
-        xmlns:leimao="http://schemas.android.com/apk/res/me.hobbits.leimao.freevip"
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
-        android:background="@color/bkg_green_light"
-        leimao:titleLeftBtnSrc="@drawable/ic_back"
-        leimao:titleTitleText="@string/title_record" />
+        android:background="@color/bkg_green"
+        app:titleLeftBtnSrc="@drawable/ic_back"
+        app:titleTitleText="@string/title_record" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,49 +32,62 @@
             android:paddingRight="12dp"
             android:paddingTop="8dp" >
 
-            <ImageView
+            <cn.gandalf.widget.AsyncImageView
+                android:id="@+id/logo"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@null"
-                android:src="@drawable/ic_xunlei" />
+                android:layout_height="42dp"
+                android:scaleType="center"
+                app:loadingImageResource="@drawable/img_video_loading" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
+                android:paddingLeft="50dp"
+                android:paddingRight="30dp"
                 android:gravity="left|center_vertical"
                 android:orientation="vertical" >
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/account"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="会员账号：fsda290" />
+                        android:layout_weight="1"
+                        android:text="会员账号：" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/copy_account"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textColor="@color/text_green_light"
                         android:text="点击复制" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="密码：33113082" />
+                        android:layout_weight="1"
+                        android:text="密码 ：" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/copy_pwd"
+                        android:layout_weight="2"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:textColor="@color/text_green_light"
                         android:text="点击复制" />
                 </LinearLayout>
             </LinearLayout>
@@ -83,21 +96,26 @@
                 android:id="@+id/tv_valid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/text_gray"
                 android:layout_gravity="center_horizontal"
                 android:text="有效期至：XXXX-XX-XX XX：XX" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/detail"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="18dp"
+            android:lineSpacingExtra="3dp"
             android:layout_marginTop="18dp"
             android:layout_weight="1"
             android:text="@string/record_info" />
 
         <Button
+            android:id="@+id/jump_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/text_green_light"
             android:background="@drawable/btn_white"
             android:text="去  赚  点  数" />
     </LinearLayout>

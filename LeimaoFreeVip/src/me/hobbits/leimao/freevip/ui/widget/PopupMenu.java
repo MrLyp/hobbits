@@ -7,6 +7,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -15,18 +16,19 @@ public class PopupMenu extends PopupWindow {
 	public static final int INDEX_MAIN = 0;
 	public static final int INDEX_RECORD = 1;
 	public static final int INDEX_TASK = 2;
-	public static final int INDEX_RECOMMEND = 3;
-	public static final int INDEX_HELP = 4;
-	public static final int INDEX_ABOUT = 5;
+	public static final int INDEX_HELP = 3;
+	public static final int INDEX_ABOUT = 4;
+	public static final int INDEX_RECOMMEND = 5;
 
 	private TextView tvId;
 
-	private TextView tvMain;
-	private TextView tvRecord;
-	private TextView tvTask;
-	private TextView tvRecommend;
-	private TextView tvHelp;
-	private TextView tvAbout;
+	private View tvMain;
+	private View tvRecord;
+	private View tvTask;
+	private View tvRecommend;
+	private View tvHelp;
+	private View tvAbout;
+	private ImageView mainIndex, recordIndex, taskIndex, helpIndex, aboutIndex;
 
 	private View.OnClickListener mOnClickListener = new View.OnClickListener() {
 
@@ -36,19 +38,26 @@ public class PopupMenu extends PopupWindow {
 			if (mListener == null) {
 				return;
 			}
+			int idx = -1;
 			if (v == tvMain) {
 				mListener.onPopupMenuClick(INDEX_MAIN);
+				idx = INDEX_MAIN;
 			} else if (v == tvRecord) {
 				mListener.onPopupMenuClick(INDEX_RECORD);
+				idx = INDEX_RECORD;
 			} else if (v == tvTask) {
 				mListener.onPopupMenuClick(INDEX_TASK);
+				idx = INDEX_TASK;
 			} else if (v == tvRecommend) {
 				mListener.onPopupMenuClick(INDEX_RECOMMEND);
 			} else if (v == tvHelp) {
 				mListener.onPopupMenuClick(INDEX_HELP);
+				idx = INDEX_HELP;
 			} else if (v == tvAbout) {
 				mListener.onPopupMenuClick(INDEX_ABOUT);
+				idx = INDEX_ABOUT;
 			}
+			setIndexCircle(idx);
 		}
 	};
 
@@ -61,19 +70,23 @@ public class PopupMenu extends PopupWindow {
 		setFocusable(true);
 	}
 
-	@SuppressLint("InflateParams")
 	private View getView(Context context) {
 		View view = LayoutInflater.from(context).inflate(
 				R.layout.widget_popupmenu, null);
 
 		tvId = (TextView) view.findViewById(R.id.tv_id);
 
-		tvMain = (TextView) view.findViewById(R.id.tv_main);
-		tvRecord = (TextView) view.findViewById(R.id.tv_record);
-		tvTask = (TextView) view.findViewById(R.id.tv_task);
-		tvRecommend = (TextView) view.findViewById(R.id.tv_recommend);
-		tvHelp = (TextView) view.findViewById(R.id.tv_help);
-		tvAbout = (TextView) view.findViewById(R.id.tv_about);
+		tvMain = view.findViewById(R.id.rl_main);
+		tvRecord = view.findViewById(R.id.rl_record);
+		tvTask = view.findViewById(R.id.rl_task);
+		tvRecommend = view.findViewById(R.id.ll_recommend);
+		tvHelp = view.findViewById(R.id.rl_help);
+		tvAbout = view.findViewById(R.id.rl_about);
+		mainIndex = (ImageView) view.findViewById(R.id.index_main);
+		recordIndex = (ImageView) view.findViewById(R.id.index_record);
+		taskIndex = (ImageView) view.findViewById(R.id.index_task);
+		helpIndex = (ImageView) view.findViewById(R.id.index_help);
+		aboutIndex = (ImageView) view.findViewById(R.id.index_about);
 
 		tvMain.setOnClickListener(mOnClickListener);
 		tvRecord.setOnClickListener(mOnClickListener);
@@ -87,6 +100,19 @@ public class PopupMenu extends PopupWindow {
 
 	public void setIdText(String id) {
 		tvId.setText(id);
+	}
+
+	private void setIndexCircle(int idx) {
+		View[] views = new View[] { mainIndex, recordIndex, taskIndex,
+				helpIndex, aboutIndex };
+		for (int i = 0; i < 5; i++) {
+			if (idx < 0 || idx > 4)
+				continue;
+			if (i == idx)
+				views[i].setVisibility(View.VISIBLE);
+			else
+				views[i].setVisibility(View.INVISIBLE);
+		}
 	}
 
 	private OnPopupMenuClickListener mListener;

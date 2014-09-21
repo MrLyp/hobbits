@@ -9,7 +9,7 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
-        android:background="@color/bkg_green_light"
+        android:background="@color/bkg_green"
         leimao:titleLeftBtnSrc="@drawable/ic_back"
         leimao:titleTitleText="@string/title_message" />
 
@@ -21,13 +21,11 @@
             android:id="@+id/lv_message"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/bkg_gray"
+            android:dividerHeight="10dp"
+            android:divider="@null"
             android:cacheColorHint="@android:color/transparent" />
 
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            layout="@layout/item_message_empty" />
     </FrameLayout>
 
 </LinearLayout>

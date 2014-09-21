@@ -1,6 +1,9 @@
 package cn.gandalf.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -103,5 +106,35 @@ public class BitmapUtils {
 			Log.v(TAG, "", e);
 		}
 		return bmp;
+	}
+	
+	public static String saveToFile(String filePath, Bitmap bmp) {
+		if (filePath == null || bmp == null)
+			return null;
+		File file = new File(filePath);
+		File dir = file.getParentFile();
+		if (dir != null && !dir.exists())
+			dir.mkdirs();
+
+		FileOutputStream fos = null;
+		try {
+			if (!file.exists())
+				file.createNewFile();
+			fos = new FileOutputStream(file);
+			if (null != fos) {
+				bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+				fos.flush();
+			}
+		} catch (IOException ie) {
+			Log.d(TAG, "save bitmap to file failed. IOE: ", ie);
+		} catch (Exception e) {
+			Log.d(TAG, "save bitmap to file failed.", e);
+		} finally {
+			try {
+				fos.close();
+			} catch (Exception e) {
+			}
+		}
+		return file.getAbsolutePath();
 	}
 }

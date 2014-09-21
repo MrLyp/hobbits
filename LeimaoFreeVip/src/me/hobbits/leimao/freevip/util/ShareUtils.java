@@ -3,14 +3,62 @@ package me.hobbits.leimao.freevip.util;
 import java.io.File;
 import java.io.Serializable;
 
+import me.hobbits.leimao.freevip.R;
+
+import cn.gandalf.util.BitmapUtils;
+
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 
 public class ShareUtils {
-	
+
+	public final static String PATH_SD = Environment
+			.getExternalStorageDirectory().getAbsolutePath();
+
+	public final static String PATH_TEMP = PATH_SD
+			+ "/me.hobbits.leimao.freevip/temp";
+
+	public static final String URL_SHARE = "http://tcvideo.bitclock.cn/index.php/Web/share";
+
 	public static enum ShareChannel {
 		WECHAT, FRIEND_CIRCLE, QQ, WEIBO
 	}
+
+	private static String mShareImagePath = null;
+
+	public static void initShareFile(Context context, boolean isLogo) {
+		String dirPath = PATH_TEMP;
+		File dir = new File(dirPath);
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		File shareImage = new File(dir, isLogo ? "logo.png" : "share.jpg");
+		if (!shareImage.exists()) {
+			Bitmap bmp = BitmapFactory.decodeResource(context.getResources(),
+					isLogo ? R.drawable.img_share_logo : R.drawable.img_share);
+			if (bmp != null) {
+				BitmapUtils.saveToFile(shareImage.getAbsolutePath(), bmp);
+			}
+		}
+		shareImage = new File(dir, isLogo ? "logo.png" : "share.jpg");
+		if (shareImage.exists())
+			mShareImagePath = shareImage.getAbsolutePath();
+	}
+
+	public static String getShareImagePath(Context context,boolean isLogo) {
+		if (mShareImagePath == null || !(new File(mShareImagePath).exists())) {
+			try {
+				initShareFile(context,isLogo);
+			} catch (Exception e) {
+			}
+		}
+		return mShareImagePath;
+	}
+
 	public static class ShareContent implements Serializable {
 		private static final long serialVersionUID = -6992225722166865874L;
 		private static final int MAX_TEXT_LENGTH = 137;

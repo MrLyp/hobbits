@@ -19,6 +19,9 @@ public class DBHelper extends SQLiteOpenHelper {
 	private static DBHelper mIns;
 
 	static {
+		registerTable(MessageHandler.TABLE_INFO);
+		registerTable(ExchangeHandler.TABLE_INFO);
+		registerTable(IncomeHandler.TABLE_INFO);
 	}
 
 	private static void registerTable(TableInfo info) {

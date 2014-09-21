@@ -63,4 +63,22 @@ public class ExchangeHandler extends BaseDBHandler {
 		}
 		return res;
 	}
+
+	public Exchange queryExchangeRecord(int tradeId) {
+		String[] columns = new String[] { _ID, _DATA };
+		String selection = _ID + "=?";
+		String[] selectionArgs = new String[] { "" + tradeId };
+		Cursor c = getDatabase().query(TABLE_NAME, columns, selection,
+				selectionArgs, null, null, null);
+		Exchange res = null;
+		try {
+			if (c.moveToNext()) {
+				String data = c.getString(c.getColumnIndex(_DATA));
+				res = (Exchange) convertBase64ToJson(Exchange.class, data);
+			}
+		} finally {
+			c.close();
+		}
+		return res;
+	}
 }

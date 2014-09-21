@@ -4,13 +4,31 @@
     android:background="@color/bkg_grey"
     android:orientation="vertical" >
 
-    <ImageView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/about_header_height"
-        android:background="@color/bkg_green_light"
-        android:contentDescription="@null"
-        android:scaleType="center"
-        android:src="@drawable/text_title_about" />
+        android:background="@color/bkg_green" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/ic_launcher" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="10dp"
+                android:src="@drawable/img_title" />
+        </LinearLayout>
+    </RelativeLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -21,22 +39,19 @@
         android:orientation="vertical" >
 
         <TextView
+            android:id="@+id/version"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="版本号：1.0" />
+            android:layout_marginTop="6dp"
+            android:text="版本号：1.0"
+            android:textColor="@color/text_gray" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="开发者：雷猫团队" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="6dp"
-            android:text="官方微信：leimao" />
+            android:layout_marginTop="6dp"
+            android:text="开发者：看世界团队"
+            android:textColor="@color/text_gray" />
     </LinearLayout>
 
     <View
@@ -50,6 +65,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="12dp"
         android:gravity="center"
-        android:text="@string/about_company" />
+        android:text="@string/about_company"
+        android:textColor="@color/text_gray" />
 
 </LinearLayout>

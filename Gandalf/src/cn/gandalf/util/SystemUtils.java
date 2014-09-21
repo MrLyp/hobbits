@@ -1,5 +1,6 @@
 package cn.gandalf.util;
 
+import android.annotation.TargetApi;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
@@ -8,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 
 public class SystemUtils {
@@ -97,6 +99,19 @@ public class SystemUtils {
 			return systemVersion;
 		} catch (Exception e) {
 			return null;
+		}
+	}
+
+	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
+	public static void copyText(Context context, String content) {
+		if (Build.VERSION.SDK_INT >= 11) {
+			android.content.ClipboardManager cmb = (android.content.ClipboardManager) context
+					.getSystemService(Context.CLIPBOARD_SERVICE);
+			cmb.setText(content.trim());
+		} else {
+			android.text.ClipboardManager cmb = (android.text.ClipboardManager) context
+					.getSystemService(Context.CLIPBOARD_SERVICE);
+			cmb.setText(content.trim());
 		}
 	}
 }

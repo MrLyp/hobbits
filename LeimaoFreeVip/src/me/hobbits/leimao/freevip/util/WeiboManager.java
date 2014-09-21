@@ -1,10 +1,8 @@
 package me.hobbits.leimao.freevip.util;
 
 import me.hobbits.leimao.freevip.util.ShareUtils.ShareContent;
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-
 import cn.gandalf.util.BitmapUtils;
 
 import com.sina.weibo.sdk.api.ImageObject;
@@ -20,13 +18,13 @@ import com.sina.weibo.sdk.utils.Utility;
 
 public class WeiboManager {
 	private static final String TAG = "WeiboManager";
-	public static final String APP_KEY = "4047600776";
-	private static final int THUMB_SIZE = 300;
+	public static final String APP_KEY = "1680301707";
+	private static final int THUMB_SIZE = 500;
 	public IWeiboShareAPI mApi;
 	private Context mContext;
 
 	public WeiboManager(Context context) {
-		mApi = WeiboShareSDK.createWeiboAPI(context, WeiboManager.APP_KEY);
+		mApi = WeiboShareSDK.createWeiboAPI(context, APP_KEY);
 		mContext = context;
 	}
 
@@ -94,10 +92,10 @@ public class WeiboManager {
 		mediaObject.identify = Utility.generateGUID();
 		mediaObject.title = "" + sc.title;
 		mediaObject.description = "" + sc.content;
-		mediaObject.defaultText = "webpageÄ¬ÈÏÎÄ°¸";
+		mediaObject.defaultText = "";
 
-		Bitmap bmp = BitmapUtils
-				.createImageThumbWithLim(sc.imagePath, THUMB_SIZE, THUMB_SIZE);
+		Bitmap bmp = BitmapUtils.createImageThumbWithLim(sc.imagePath,
+				THUMB_SIZE, THUMB_SIZE);
 		if (bmp != null)
 			mediaObject.setThumbImage(bmp);
 		if (sc.url != null)

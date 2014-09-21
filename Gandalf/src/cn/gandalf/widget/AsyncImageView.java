@@ -53,6 +53,8 @@ public class AsyncImageView extends ImageView {
 	}
 
 	public void setImageUrlAndLoad(String url) {
+		if (url == null)
+			return;
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
 				.cacheInMemory(true).cacheOnDisk(true).considerExifParams(true)
 				.build();

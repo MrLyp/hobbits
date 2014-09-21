@@ -14,7 +14,7 @@ import cn.gandalf.net.BaseHttpManager.RequestParam;
 import cn.gandalf.net.BaseHttpManager.ServerApi;
 import cn.gandalf.util.JsonUtils;
 
-public class HttpConnectTask extends HandlerMessageTask {
+public class HttpConnectTask extends BaseTask {
 	private static final String TAG = "HttpConnectTask";
 	private JsonItem mData = null;
 	private ErrorResp mError;
@@ -70,10 +70,6 @@ public class HttpConnectTask extends HandlerMessageTask {
 				ServerApi api = mParams.getServerApi();
 
 				mData = JsonUtils.parseJSONToObject(api.getResponse(), body);
-				if (mData == null) {
-					mError = JsonUtils.parseJSONToObject(ErrorResp.class, body);
-					return ECode.FAIL;
-				}
 				return ECode.SUCCESS;
 			}
 

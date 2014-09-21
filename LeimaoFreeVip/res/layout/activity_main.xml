@@ -9,7 +9,7 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
-        android:background="@color/bkg_green_light"
+        android:background="@color/bkg_green"
         leimao:titleLeftBtnSrc="@drawable/ic_menu"
         leimao:titleRightBtnSrc="@drawable/ic_message" />
 

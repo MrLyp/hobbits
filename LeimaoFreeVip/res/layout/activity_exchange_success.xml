@@ -1,0 +1,138 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/me.hobbits.leimao.freevip"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bkg_grey"
+    android:orientation="vertical" >
+
+    <me.hobbits.leimao.freevip.ui.widget.TitlebarView
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        android:background="@color/bkg_green"
+        app:titleLeftBtnSrc="@drawable/ic_back"
+        app:titleTitleText="@string/title_record" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="兑换成功"
+        android:textColor="@color/text_green_light"
+        android:textSize="22sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="24dp"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="24dp" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bkg_big_borad"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="8dp" >
+
+            <cn.gandalf.widget.AsyncImageView
+                android:id="@+id/logo"
+                android:layout_width="wrap_content"
+                android:layout_height="42dp"
+                android:scaleType="center"
+                app:loadingImageResource="@drawable/img_video_loading" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp"
+                android:gravity="left|center_vertical"
+                android:orientation="vertical" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="会员账号：" />
+
+                    <TextView
+                        android:id="@+id/copy_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:textColor="@color/text_green_light"
+                        android:text="点击复制" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/password"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="密码：" />
+
+                    <TextView
+                        android:id="@+id/copy_pwd"
+                        android:layout_weight="2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_green_light"
+                        android:text="点击复制" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_valid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="有效期至：XXXX-XX-XX XX：XX"
+                android:textColor="@color/text_gray" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/detail"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="18dp"
+            android:layout_marginTop="18dp"
+            android:layout_weight="1"
+            android:text="@string/record_info" />
+
+        <Button
+            android:id="@+id/jump_to_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_white"
+            android:text="返回首页"
+            android:textColor="@color/text_green_light" />
+        <Button
+            android:id="@+id/jump_to_record"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_white"
+            android:text="查看兑换记录"
+            android:textColor="@color/text_green_light" />
+    </LinearLayout>
+
+</LinearLayout>

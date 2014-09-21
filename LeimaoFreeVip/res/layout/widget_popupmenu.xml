@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="@dimen/widget_popup_menu_item_width"
     android:layout_height="wrap_content"
     android:background="@drawable/bkg_popup"
     android:gravity="center_horizontal"
@@ -11,20 +11,37 @@
         android:layout_width="@dimen/widget_popup_menu_item_width"
         android:layout_height="@dimen/widget_popup_menu_item_height"
         android:background="@drawable/bkg_item_menu"
-        android:gravity="center" />
+        android:gravity="center"
+        android:textColor="@color/text_green_light" />
 
     <View
         android:layout_width="@dimen/widget_popup_menu_item_width"
         android:layout_height="1px"
         android:background="@color/divider_green_light" />
 
-    <TextView
-        android:id="@+id/tv_main"
-        android:layout_width="@dimen/widget_popup_menu_item_width"
+    <RelativeLayout
+        android:id="@+id/rl_main"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/widget_popup_menu_item_height"
-        android:background="@drawable/bkg_item_menu"
-        android:gravity="center"
-        android:text="@string/title_main" />
+        android:background="@drawable/bkg_item_menu" >
+
+        <ImageView
+            android:id="@+id/index_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="40dp"
+            android:src="@drawable/ic_circle_green" />
+
+        <TextView
+            android:id="@+id/tv_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/title_main" />
+    </RelativeLayout>
 
     <ImageView
         android:layout_width="@dimen/widget_popup_menu_item_width"
@@ -34,13 +51,30 @@
         android:paddingRight="@dimen/widget_popup_menu_divider_padding"
         android:src="@color/divider_grey" />
 
-    <TextView
-        android:id="@+id/tv_record"
-        android:layout_width="@dimen/widget_popup_menu_item_width"
+    <RelativeLayout
+        android:id="@+id/rl_record"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/widget_popup_menu_item_height"
-        android:background="@drawable/bkg_item_menu"
-        android:gravity="center"
-        android:text="@string/title_record" />
+        android:background="@drawable/bkg_item_menu" >
+
+        <ImageView
+            android:id="@+id/index_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="40dp"
+            android:src="@drawable/ic_circle_green"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_record"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/title_record" />
+    </RelativeLayout>
 
     <ImageView
         android:layout_width="@dimen/widget_popup_menu_item_width"
@@ -50,13 +84,30 @@
         android:paddingRight="@dimen/widget_popup_menu_divider_padding"
         android:src="@color/divider_grey" />
 
-    <TextView
-        android:id="@+id/tv_task"
-        android:layout_width="@dimen/widget_popup_menu_item_width"
+    <RelativeLayout
+        android:id="@+id/rl_task"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/widget_popup_menu_item_height"
-        android:background="@drawable/bkg_item_menu"
-        android:gravity="center"
-        android:text="@string/title_task" />
+        android:background="@drawable/bkg_item_menu" >
+
+        <ImageView
+            android:id="@+id/index_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="40dp"
+            android:src="@drawable/ic_circle_green"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_task"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/title_task" />
+    </RelativeLayout>
 
     <ImageView
         android:layout_width="@dimen/widget_popup_menu_item_width"
@@ -66,13 +117,31 @@
         android:paddingRight="@dimen/widget_popup_menu_divider_padding"
         android:src="@color/divider_grey" />
 
-    <TextView
-        android:id="@+id/tv_recommend"
-        android:layout_width="@dimen/widget_popup_menu_item_width"
-        android:layout_height="@dimen/widget_popup_menu_item_height"
+    <LinearLayout
+        android:id="@+id/ll_recommend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:background="@drawable/bkg_item_menu"
-        android:gravity="center"
-        android:text="@string/title_recommend" />
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tv_recommend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="5dp"
+            android:text="@string/title_recommend" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="5dp"
+            android:paddingTop="3dp"
+            android:text="送迅雷白金会员"
+            android:textColor="#ff0000"
+            android:textSize="11sp" />
+    </LinearLayout>
 
     <ImageView
         android:layout_width="@dimen/widget_popup_menu_item_width"
@@ -82,13 +151,30 @@
         android:paddingRight="@dimen/widget_popup_menu_divider_padding"
         android:src="@color/divider_grey" />
 
-    <TextView
-        android:id="@+id/tv_help"
-        android:layout_width="@dimen/widget_popup_menu_item_width"
+    <RelativeLayout
+        android:id="@+id/rl_help"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/widget_popup_menu_item_height"
-        android:background="@drawable/bkg_item_menu"
-        android:gravity="center"
-        android:text="@string/title_help" />
+        android:background="@drawable/bkg_item_menu" >
+
+        <ImageView
+            android:id="@+id/index_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="40dp"
+            android:src="@drawable/ic_circle_green"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/title_help" />
+    </RelativeLayout>
 
     <ImageView
         android:layout_width="@dimen/widget_popup_menu_item_width"
@@ -98,12 +184,29 @@
         android:paddingRight="@dimen/widget_popup_menu_divider_padding"
         android:src="@color/divider_grey" />
 
-    <TextView
-        android:id="@+id/tv_about"
-        android:layout_width="@dimen/widget_popup_menu_item_width"
+    <RelativeLayout
+        android:id="@+id/rl_about"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/widget_popup_menu_item_height"
-        android:background="@drawable/bkg_item_menu"
-        android:gravity="center"
-        android:text="@string/title_about" />
+        android:background="@drawable/bkg_item_menu" >
+
+        <ImageView
+            android:id="@+id/index_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="40dp"
+            android:src="@drawable/ic_circle_green"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/tv_about"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/title_about" />
+    </RelativeLayout>
 
 </LinearLayout>

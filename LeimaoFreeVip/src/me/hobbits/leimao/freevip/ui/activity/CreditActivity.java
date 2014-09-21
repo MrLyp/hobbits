@@ -1,30 +1,43 @@
 package me.hobbits.leimao.freevip.ui.activity;
 
-import com.mfgqsipin.Bxhtod;
-
-import cn.dm.android.DMOfferWall;
-import cn.waps.AppConnect;
-import me.hobbits.leimao.freevip.model.Task;
-import me.hobbits.leimao.freevip.ui.widget.TitlebarView;
+import me.hobbits.leimao.freevip.AppConnect;
 import me.hobbits.leimao.freevip.R;
+import me.hobbits.leimao.freevip.model.SignInSuccess;
+import me.hobbits.leimao.freevip.model.Task;
+import me.hobbits.leimao.freevip.model.TaskList;
+import me.hobbits.leimao.freevip.net.HttpManager;
+import me.hobbits.leimao.freevip.ui.widget.TitlebarView;
+import me.hobbits.leimao.freevip.util.GlobalValue;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import cn.dm.android.DMOfferWall;
+import cn.gandalf.task.BaseTask;
+import cn.gandalf.task.BaseTask.Callback;
+import cn.gandalf.task.HttpConnectTask;
+import cn.gandalf.widget.AsyncImageView;
+
+import com.mfgqsipin.Bxhtod;
+
+import e.r.t.ccafss;
+import e.r.t.os.ccbjss;
 
 public class CreditActivity extends BaseActivity {
 
 	private TitlebarView mTitlebarView;
 
 	private ListView lvCredit;
-	private BaseAdapter adapterCredit;
+	private CreditAdapter adapterCredit;
+	private TaskList mTaskList;
+	private Context mContext;
+	private String mUserId;
 
 	private View.OnClickListener mOnClickListener = new View.OnClickListener() {
 
@@ -36,20 +49,39 @@ public class CreditActivity extends BaseActivity {
 		}
 	};
 
+	private AdapterView.OnItemClickListener mOnItemClickListener = new AdapterView.OnItemClickListener() {
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			if (mTaskList == null || position > mTaskList.size())
+				return;
+			Task task = mTaskList.get(position);
+			onTaskClick(task);
+		}
+	};
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mContext = this;
 		initOfferWalls();
+		initData();
 	}
 
 	private void initOfferWalls() {
+		SignInSuccess userInfo = GlobalValue.getIns(this).getUserInfo();
+		mUserId = userInfo.getUser_id();
 		DMOfferWall.init(this, "96ZJ2vzgzeBz/wTBCV");
-		AppConnect
-				.getInstance("fae474acea708f29b58ca549d9c6514e", "waps", this);
+		DMOfferWall.getInstance(this).setUserId(mUserId);
+		AppConnect.getInstance(this);
 		Bxhtod.initGoogleContext(this, "8551bfb5d76985621430994362ab75c5");
-		Bxhtod.setCurrentUserID(this, "1234");
-		Bxhtod.setCustomActivity("com.mfgqsipin.BxhtodGoogleActivity");
-		Bxhtod.setCustomService("com.mfgqsipin.BxhtodGoogleService");
+		Bxhtod.setCurrentUserID(this, mUserId);
+		Bxhtod.setCustomActivity("com.mfgqsipin.BxhtodNativeActivity");
+		Bxhtod.setCustomService("com.mfgqsipin.BxhtodNativeService");
+		ccafss.getInstance(this).init("9bb91a86a07d0de5", "e315708d2d846002",
+				false);
+		ccbjss.getInstance(this).mmendd();
+		ccbjss.getInstance(this).mmfgdd(mUserId);
 	}
 
 	private void onTaskClick(Task task) {
@@ -58,11 +90,11 @@ public class CreditActivity extends BaseActivity {
 		if (task.getName().equals("domob")) {
 			DMOfferWall.getInstance(this).showOfferWall(this);
 		} else if (task.getName().equals("waps")) {
-			AppConnect.getInstance(this).showOffers(this);
-		} else if (task.getName().equals("adwo")) {
+			AppConnect.getInstance(this).showOffers(this, mUserId);
+		} else if (task.getName().equals("dianle")) {
 			Bxhtod.showOffers(this);
-		} else if (task.getName().equals("adview")) {
-			startActivity(new Intent(this, LimeiWallActivity.class));
+		} else if (task.getName().equals("youmi")) {
+			ccbjss.getInstance(this).mmfqdd();
 		}
 	}
 
@@ -70,6 +102,7 @@ public class CreditActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 		AppConnect.getInstance(this).close();
+		ccbjss.getInstance(this).mmemdd();
 	}
 
 	@Override
@@ -86,29 +119,67 @@ public class CreditActivity extends BaseActivity {
 		adapterCredit = new CreditAdapter(this);
 		lvCredit = (ListView) findViewById(R.id.lv_credit);
 		lvCredit.setAdapter(adapterCredit);
+		lvCredit.setOnItemClickListener(mOnItemClickListener);
+	}
+
+	private void initData() {
+		initContent();
+		final HttpConnectTask mTask = new HttpConnectTask(this,
+				HttpManager.getTaskParam());
+		mTask.setCallback(new Callback() {
+
+			@Override
+			public void onSuccess(BaseTask task, Object t) {
+				TaskList list = (TaskList) mTask.getResult();
+				GlobalValue.getIns(mContext).updateTasks(list);
+				initContent();
+			}
+
+			@Override
+			public void onFail(BaseTask task, Object t) {
+
+			}
+		});
+		mTask.execute();
+	}
+
+	private void initContent() {
+		mTaskList = GlobalValue.getIns(mContext).getTaskList();
+		adapterCredit.setData(mTaskList);
+		adapterCredit.notifyDataSetChanged();
 	}
 
 	private class CreditAdapter extends BaseAdapter {
 
 		private Context mContext;
+		private TaskList mData;
 
 		public CreditAdapter(Context context) {
 			mContext = context;
 		}
 
+		public void setData(TaskList l) {
+			mData = l;
+		}
+
 		@Override
 		public int getCount() {
-			return 3;
+			if (mData != null)
+				return mData.size();
+			else
+				return 0;
 		}
 
 		@Override
 		public Object getItem(int position) {
+			if (mData != null && position < mData.size())
+				return mData.get(position);
 			return null;
 		}
 
 		@Override
 		public long getItemId(int position) {
-			return 0;
+			return position;
 		}
 
 		@SuppressLint("InflateParams")
@@ -118,9 +189,9 @@ public class CreditActivity extends BaseActivity {
 			if (null == convertView) {
 				viewHolder = new ViewHolder();
 				convertView = LayoutInflater.from(mContext).inflate(
-						R.layout.item_credit, null);
+						R.layout.list_item_credit, null);
 
-				viewHolder.ivIcon = (ImageView) convertView
+				viewHolder.ivIcon = (AsyncImageView) convertView
 						.findViewById(R.id.iv_icon);
 				viewHolder.tvTitle = (TextView) convertView
 						.findViewById(R.id.tv_title);
@@ -131,10 +202,13 @@ public class CreditActivity extends BaseActivity {
 			} else {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
-
-			viewHolder.ivIcon.setVisibility(View.VISIBLE);
-			viewHolder.tvTitle.setText("任务多");
-			viewHolder.tvSummary.setText("新增任务数量较多");
+			Object obj = getItem(position);
+			if (obj == null)
+				return convertView;
+			Task task = (Task) obj;
+			viewHolder.ivIcon.setImageUrlAndLoad(task.getImg());
+			viewHolder.tvTitle.setText(task.getShow_name());
+			viewHolder.tvSummary.setText(task.getDetail());
 
 			return convertView;
 		}
@@ -142,7 +216,7 @@ public class CreditActivity extends BaseActivity {
 	}
 
 	private static class ViewHolder {
-		ImageView ivIcon;
+		AsyncImageView ivIcon;
 		TextView tvTitle;
 		TextView tvSummary;
 	}

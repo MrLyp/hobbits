@@ -37,13 +37,15 @@
         <TextView
             android:id="@+id/tv_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_gray" />
         <!-- 大灰色 -->
 
         <TextView
             android:id="@+id/tv_price"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_green_light" />
         <!-- 大绿色 -->
     </LinearLayout>
 

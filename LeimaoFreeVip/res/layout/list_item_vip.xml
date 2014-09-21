@@ -21,11 +21,12 @@
             <cn.gandalf.widget.AsyncImageView
                 android:id="@+id/iv_logo"
                 android:layout_width="wrap_content"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:contentDescription="@null"
-                android:scaleType="center"
+                android:minHeight="40dp"
+                android:scaleType="centerInside"
                 app:loadingImageResource="@drawable/img_video_loading" />
 
             <TextView
@@ -68,5 +69,21 @@
         android:layout_margin="4dp"
         android:contentDescription="@null"
         android:src="@drawable/ic_hot" />
+
+    <RelativeLayout
+        android:id="@+id/sold_out"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#4feeeeee"
+        android:visibility="gone" >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:paddingRight="20dp"
+            android:src="@drawable/img_sold_out" />
+    </RelativeLayout>
 
 </FrameLayout>

@@ -8,9 +8,9 @@ import me.hobbits.leimao.freevip.net.HttpManager;
 import me.hobbits.leimao.freevip.util.GlobalValue;
 import android.content.Context;
 import cn.gandalf.exception.ECode;
-import cn.gandalf.task.HandlerMessageTask;
+import cn.gandalf.task.BaseTask;
 
-public class QueryMainPageInfoTask extends HandlerMessageTask {
+public class QueryMainPageInfoTask extends BaseTask {
 
 	private Context mContext;
 	private GlobalValue mDataManager;

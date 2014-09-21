@@ -9,13 +9,14 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
-        android:background="@color/bkg_green_light"
+        android:background="@color/bkg_green"
         leimao:titleLeftBtnSrc="@drawable/ic_back"
         leimao:titleTitleText="@string/title_credit" />
     <ListView
         android:id="@+id/lv_credit"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:listSelector="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent" />
 
 </LinearLayout>

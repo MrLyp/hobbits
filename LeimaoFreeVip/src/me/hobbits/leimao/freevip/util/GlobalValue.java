@@ -1,14 +1,24 @@
 package me.hobbits.leimao.freevip.util;
 
+import java.util.List;
+
+import me.hobbits.leimao.freevip.db.ExchangeHandler;
+import me.hobbits.leimao.freevip.db.IncomeHandler;
+import me.hobbits.leimao.freevip.db.MessageHandler;
 import me.hobbits.leimao.freevip.model.Balance;
 import me.hobbits.leimao.freevip.model.BannerList;
 import me.hobbits.leimao.freevip.model.BasicConfig;
+import me.hobbits.leimao.freevip.model.Exchange;
+import me.hobbits.leimao.freevip.model.ExchangeList;
 import me.hobbits.leimao.freevip.model.Goods;
 import me.hobbits.leimao.freevip.model.GoodsList;
+import me.hobbits.leimao.freevip.model.Income;
+import me.hobbits.leimao.freevip.model.IncomeList;
+import me.hobbits.leimao.freevip.model.Message;
+import me.hobbits.leimao.freevip.model.MessageList;
 import me.hobbits.leimao.freevip.model.SignInSuccess;
 import me.hobbits.leimao.freevip.model.TaskList;
 import android.content.Context;
-import android.util.Log;
 import cn.gandalf.util.PersistenceManager;
 
 public class GlobalValue {
@@ -28,6 +38,12 @@ public class GlobalValue {
 	private BasicConfig mBasicConfig;
 	private GoodsList mGoodsList;
 	private TaskList mTaskList;
+	private List<Message> mMessages;
+	private List<Exchange> mExchanges;
+	private List<Income> mIncomes;
+	private ExchangeHandler mExchangeHandler;
+	private MessageHandler mMessageHandler;
+	private IncomeHandler mIncomeHandler;
 
 	public static GlobalValue getIns(Context context) {
 		if (mIns == null) {
@@ -38,13 +54,12 @@ public class GlobalValue {
 
 	private GlobalValue(Context context) {
 		mContext = context.getApplicationContext();
+		mExchangeHandler = new ExchangeHandler(mContext);
+		mMessageHandler = new MessageHandler(mContext);
+		mIncomeHandler = new IncomeHandler(mContext);
 	}
 
 	public void updateUserInfo(SignInSuccess info) {
-		Log.d("lyp","info = null" + (info == null));
-		if (info != null) {
-			Log.d("lyp","info is not null"  + info.getUser_id() + " " + info.getPwd());
-		}
 		mUserInfo = info;
 		PersistenceManager.getInstance(mContext).putObject(KEY_USER_INFO,
 				mUserInfo);
@@ -111,7 +126,7 @@ public class GlobalValue {
 					.getObject(KEY_GOODS);
 		return mGoodsList;
 	}
-	
+
 	public Goods getGoodsItem(int idx) {
 		GoodsList list = getGoodsList();
 		if (list == null || idx >= list.size())
@@ -129,6 +144,51 @@ public class GlobalValue {
 			mTaskList = (TaskList) PersistenceManager.getInstance(mContext)
 					.getObject(KEY_TASK);
 		return mTaskList;
+	}
+
+	public void updateMessages(MessageList list) {
+		if (list == null || list.isEmpty())
+			return;
+		for (Message m : list) {
+			mMessageHandler.insertMessage(m);
+		}
+		mMessages = mMessageHandler.queryAllMessage();
+	}
+
+	public List<Message> getMessageList() {
+		if (mMessages == null)
+			mMessages = mMessageHandler.queryAllMessage();
+		return mMessages;
+	}
+
+	public void updateExchanges(ExchangeList list) {
+		if (list == null || list.isEmpty())
+			return;
+		for (Exchange e : list) {
+			mExchangeHandler.insertExchange(e);
+		}
+		mExchanges = mExchangeHandler.queryAllExchange();
+	}
+
+	public List<Exchange> getExchangeList() {
+		if (mExchanges == null)
+			mExchanges = mExchangeHandler.queryAllExchange();
+		return mExchanges;
+	}
+
+	public void updateIncomes(IncomeList list) {
+		if (list == null || list.isEmpty())
+			return;
+		for (Income i : list) {
+			mIncomeHandler.insertIncome(i);
+		}
+		mIncomes = mIncomeHandler.queryAllIncome();
+	}
+
+	public List<Income> getIncomeList() {
+		if (mIncomes == null)
+			mIncomes = mIncomeHandler.queryAllIncome();
+		return mIncomes;
 	}
 
 }

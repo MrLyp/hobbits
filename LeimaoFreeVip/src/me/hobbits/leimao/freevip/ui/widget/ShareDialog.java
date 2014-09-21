@@ -3,9 +3,15 @@ package me.hobbits.leimao.freevip.ui.widget;
 import cn.gandalf.util.ScreenUtils;
 import me.hobbits.leimao.freevip.R;
 import me.hobbits.leimao.freevip.util.ShareUtils.ShareChannel;
+import me.hobbits.leimao.freevip.util.ShareUtils.ShareContent;
+import me.hobbits.leimao.freevip.util.QQManager;
+import me.hobbits.leimao.freevip.util.ShareUtils;
+import me.hobbits.leimao.freevip.util.WeiboManager;
 import me.hobbits.leimao.freevip.util.WeixinManager;
+import me.hobbits.leimao.freevip.wxapi.WeiboTransferActivity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -22,6 +28,9 @@ public class ShareDialog extends Dialog implements
 	private TextView mWeibo;
 	private ImageView mExit;
 	private Context mContext;
+	private QQManager mQQManager;
+	private WeiboManager mWeiboManager;
+	private WeixinManager mWeiXinManager;
 
 	public ShareDialog(Context context) {
 		super(context);
@@ -34,7 +43,9 @@ public class ShareDialog extends Dialog implements
 		WindowManager.LayoutParams lp = dialogWindow.getAttributes();
 		lp.width = (int) (ScreenUtils.getScreenWidth(context) * 0.8f);
 		dialogWindow.setAttributes(lp);
-
+		mQQManager = new QQManager(mContext);
+		mWeiboManager = new WeiboManager(mContext);
+		mWeiXinManager = new WeixinManager(mContext);
 	}
 
 	private void initViews() {
@@ -54,16 +65,16 @@ public class ShareDialog extends Dialog implements
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.tv_wechat:
-			Log.d("lyp", "share to wechat");
+			onShare(ShareChannel.WECHAT);
 			break;
 		case R.id.tv_friend_circle:
-			Log.d("lyp", "share to friend_circle");
+			onShare(ShareChannel.FRIEND_CIRCLE);
 			break;
 		case R.id.tv_qq:
-			Log.d("lyp", "share to qq");
+			onShare(ShareChannel.QQ);
 			break;
 		case R.id.tv_weibo:
-			Log.d("lyp", "share to weibo");
+			onShare(ShareChannel.WEIBO);
 			break;
 		case R.id.iv_close:
 			dismiss();
@@ -74,18 +85,46 @@ public class ShareDialog extends Dialog implements
 	}
 
 	private void onShare(ShareChannel channel) {
+		ShareContent sc;
 		switch (channel) {
 		case WECHAT:
+			sc = new ShareContent();
+			sc.title = "迅雷白金会员免费送啦！";
+			sc.content = "海量高清视频免费看，种子资源随便下~你懂的！";
+			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
+			sc.url = ShareUtils.URL_SHARE;
+			mWeiXinManager.sendMessage(sc, false);
 			break;
 		case FRIEND_CIRCLE:
+			sc = new ShareContent();
+			sc.title = "迅雷白金会员免费送啦！用来干嘛？你懂的!";
+			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
+			sc.url = ShareUtils.URL_SHARE;
+			mWeiXinManager.sendMessage(sc, true);
 			break;
 		case QQ:
+			sc = new ShareContent();
+			sc.title = "迅雷白金会员免费送啦！";
+			sc.content = "海量高清视频免费看，种子资源随便下~你懂的！";
+			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
+			sc.url = ShareUtils.URL_SHARE;
+			mQQManager.sendMessage(sc);
 			break;
 		case WEIBO:
+			sc = new ShareContent();
+			sc.title = "【免费高清视频】这个APP太给力了，可以免费用迅雷白金会员！同时还有种子资源哦！";
+			sc.imagePath = ShareUtils.getShareImagePath(mContext, false);
+			sc.url = ShareUtils.URL_SHARE;
+			Intent intent = new Intent(mContext,
+					WeiboTransferActivity.class);
+			intent.setAction(WeiboTransferActivity.ACTION_SEND_MSG);
+			intent.putExtra(WeiboTransferActivity.EXTRA_DATA, sc);
+			mContext.startActivity(intent);
 			break;
 		default:
 			return;
 		}
+		dismiss();
 	}
 
 }

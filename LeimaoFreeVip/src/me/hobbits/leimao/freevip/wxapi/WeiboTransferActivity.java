@@ -55,10 +55,10 @@ public class WeiboTransferActivity extends Activity implements
 		case WBConstants.ErrorCode.ERR_OK:
 			break;
 		case WBConstants.ErrorCode.ERR_CANCEL:
-			Log.d(TAG,baseResp.errMsg + " "+ baseResp.toString());
+			Log.d(TAG, baseResp.errMsg + " " + baseResp.toString());
 			break;
 		case WBConstants.ErrorCode.ERR_FAIL:
-			Log.d(TAG,baseResp.errMsg + " "+ baseResp.toString());
+			Log.d(TAG, baseResp.errMsg + " " + baseResp.toString());
 			break;
 		}
 	}

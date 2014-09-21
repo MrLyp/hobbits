@@ -14,7 +14,7 @@ import android.database.sqlite.SQLiteDatabase;
 public class MessageHandler extends BaseDBHandler {
 
 	private static final String TAG = "MessageHandler";
-	private static final String TABLE_NAME = "exchange";
+	private static final String TABLE_NAME = "message";
 	private static final String _ID = "_id";
 	private static final String _DATA = "data";
 	public static final String CREATE_SQL = "CREATE TABLE "
@@ -48,7 +48,7 @@ public class MessageHandler extends BaseDBHandler {
 		}
 	}
 
-	public List<Message> queryAllExchange() {
+	public List<Message> queryAllMessage() {
 		String[] columns = new String[] { _ID, _DATA };
 		String orderBy = _ID + " desc";
 		Cursor c = getDatabase().query(TABLE_NAME, columns, null, null, null,
@@ -63,6 +63,12 @@ public class MessageHandler extends BaseDBHandler {
 			c.close();
 		}
 		return res;
+	}
+
+	public void deleteMessage(int id) {
+		String whereClause = _ID + "=?";
+		String[] whereArgs = new String[] { "" + id };
+		getDatabase().delete(TABLE_NAME, whereClause, whereArgs);
 	}
 
 }

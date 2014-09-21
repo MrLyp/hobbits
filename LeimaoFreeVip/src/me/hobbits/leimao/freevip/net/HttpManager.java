@@ -9,6 +9,7 @@ import me.hobbits.leimao.freevip.model.GoodsList;
 import me.hobbits.leimao.freevip.model.IncomeList;
 import me.hobbits.leimao.freevip.model.MessageList;
 import me.hobbits.leimao.freevip.model.SignInSuccess;
+import me.hobbits.leimao.freevip.model.SubmitSuccess;
 import me.hobbits.leimao.freevip.model.TaskList;
 import me.hobbits.leimao.freevip.util.GlobalValue;
 
@@ -113,7 +114,7 @@ public class HttpManager extends BaseHttpManager {
 
 	public static CRequestParam getSubmitParam(int id) {
 		ServerApi api = new ServerApi(HOST_URL, "index.php/Trade/submit",
-				ExchangeList.class);
+				SubmitSuccess.class);
 		CRequestParam param = new CRequestParam(api);
 		param.addNameValuePair("goods_id", id);
 		addSign(param);

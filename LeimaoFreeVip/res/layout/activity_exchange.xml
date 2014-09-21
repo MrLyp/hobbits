@@ -10,9 +10,9 @@
         android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/titlebar_height"
-        android:background="@color/bkg_green_light"
+        android:background="@color/bkg_green"
         leimao:titleLeftBtnSrc="@drawable/ic_back"
-        leimao:titleRightBtnSrc="@drawable/ic_why"
+        leimao:titleRightBtnSrc="@drawable/ic_help"
         leimao:titleTitleText="@string/title_exchange" />
 
     <ScrollView
@@ -61,6 +61,7 @@
                     android:id="@+id/name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:gravity="center"
                     android:textColor="#000000"
                     android:textSize="22sp" />

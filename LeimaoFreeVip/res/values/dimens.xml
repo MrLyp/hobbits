@@ -5,7 +5,7 @@
     <dimen name="titlebar_dot_margin">8dp</dimen>
     <dimen name="main_header_height">148dp</dimen>
     <dimen name="main_header_info_height">64dp</dimen>
-    <dimen name="about_header_height">160dp</dimen>
+    <dimen name="about_header_height">180dp</dimen>
     <dimen name="widget_popup_menu_divider_padding">18dp</dimen>
     <dimen name="widget_popup_menu_item_width">192dp</dimen>
     <dimen name="widget_popup_menu_item_height">42dp</dimen>

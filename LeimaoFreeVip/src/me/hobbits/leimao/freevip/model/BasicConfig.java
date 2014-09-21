@@ -3,7 +3,7 @@ package me.hobbits.leimao.freevip.model;
 import cn.gandalf.json.JsonItem;
 
 public class BasicConfig implements JsonItem {
-	
+
 	private static final long serialVersionUID = -282756808648668399L;
 	private Version version;
 	private int is_hidden;

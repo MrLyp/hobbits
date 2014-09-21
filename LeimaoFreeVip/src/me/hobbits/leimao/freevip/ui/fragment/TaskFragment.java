@@ -1,28 +1,31 @@
 package me.hobbits.leimao.freevip.ui.fragment;
 
+import java.util.List;
+
 import me.hobbits.leimao.freevip.R;
-import android.annotation.SuppressLint;
+import me.hobbits.leimao.freevip.model.Income;
+import me.hobbits.leimao.freevip.task.QueryIncomeTask;
+import me.hobbits.leimao.freevip.ui.activity.MainActivity;
+import me.hobbits.leimao.freevip.ui.widget.TitlebarView;
+import me.hobbits.leimao.freevip.util.GlobalValue;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import cn.gandalf.task.BaseTask;
+import cn.gandalf.task.BaseTask.Callback;
 
 public class TaskFragment extends BaseFragment {
 
 	private ListView lvTask;
-	private BaseAdapter adapterTask;
-
-	private AdapterView.OnItemClickListener mOnItemClickListener = new AdapterView.OnItemClickListener() {
-		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
-			// TODO task detail
-		}
-	};
+	private TaskAdapter adapterTask;
+	private View mRefreshButton;
+	private Animation mAnimRefresh;
 
 	@Override
 	protected int getLayoutId() {
@@ -35,40 +38,86 @@ public class TaskFragment extends BaseFragment {
 		adapterTask = new TaskAdapter(getActivity());
 		lvTask = (ListView) findViewById(R.id.lv_task);
 		lvTask.setAdapter(adapterTask);
-		lvTask.setOnItemClickListener(mOnItemClickListener);
+		LayoutInflater inflater = mContext.getLayoutInflater();
+		View emptyView = inflater.inflate(R.layout.list_item_message_empty,
+				null);
+		TextView text = (TextView) emptyView.findViewById(R.id.empty_text);
+		text.setText("娌℃湁鏇村璁板綍");
+		((ViewGroup) lvTask.getParent()).addView(emptyView);
+		lvTask.setEmptyView(emptyView);
+		TitlebarView title = ((MainActivity) getActivity()).getTitleBar();
+		if (title != null)
+			mRefreshButton = title.getRightButton();
+		mAnimRefresh = AnimationUtils.loadAnimation(mContext,
+				R.anim.anticlockwise_rotation);
+		refresh();
+	}
+
+	public void refresh() {
+		mRefreshButton.startAnimation(mAnimRefresh);
+		initContent();
+		final QueryIncomeTask mTask = new QueryIncomeTask(mContext);
+		mTask.setCallback(new Callback() {
+
+			@Override
+			public void onSuccess(BaseTask task, Object t) {
+				mRefreshButton.clearAnimation();
+				initContent();
+			}
+
+			@Override
+			public void onFail(BaseTask task, Object t) {
+				mRefreshButton.clearAnimation();
+			}
+		});
+		mTask.execute();
+	}
+
+	private void initContent() {
+		List<Income> list = GlobalValue.getIns(mContext).getIncomeList();
+		adapterTask.setData(list);
+		adapterTask.notifyDataSetChanged();
 	}
 
 	private class TaskAdapter extends BaseAdapter {
 
 		private Context mContext;
+		private List<Income> mData;
 
 		public TaskAdapter(Context context) {
 			mContext = context;
 		}
 
+		private void setData(List<Income> list) {
+			mData = list;
+		}
+
 		@Override
 		public int getCount() {
-			return 4;
+			if (mData == null)
+				return 0;
+			return mData.size();
 		}
 
 		@Override
 		public Object getItem(int position) {
-			return new Object();
+			if (mData == null || position > mData.size())
+				return null;
+			return mData.get(position);
 		}
 
 		@Override
 		public long getItemId(int position) {
-			return 0;
+			return position;
 		}
 
-		@SuppressLint("InflateParams")
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder viewHolder = null;
 			if (null == convertView) {
 				viewHolder = new ViewHolder();
 				convertView = LayoutInflater.from(mContext).inflate(
-						R.layout.item_task, null);
+						R.layout.list_item_task, null);
 
 				viewHolder.tvTask = (TextView) convertView
 						.findViewById(R.id.tv_task);
@@ -84,10 +133,14 @@ public class TaskFragment extends BaseFragment {
 				viewHolder = (ViewHolder) convertView.getTag();
 			}
 
-			viewHolder.tvTask.setText("下载《大航海时代》");
-			viewHolder.tvLeft.setText("余额：19.02");
-			viewHolder.tvTime.setText("2014-09-04 19:32:44");
-			viewHolder.tvPrice.setText("+2.30");
+			Object obj = getItem(position);
+			if (obj == null)
+				return convertView;
+			Income income = (Income) obj;
+			viewHolder.tvTask.setText(income.getInfo());
+			viewHolder.tvLeft.setText("浣欓 : " + income.getBalance());
+			viewHolder.tvTime.setText(income.getTime());
+			viewHolder.tvPrice.setText("+" + income.getAmount());
 
 			return convertView;
 		}

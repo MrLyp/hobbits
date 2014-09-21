@@ -12,7 +12,7 @@ import com.tencent.mm.sdk.openapi.WXMediaMessage;
 import com.tencent.mm.sdk.openapi.WXWebpageObject;
 
 public class WeixinManager {
-	private static final String APP_ID = "wx781fae6c2827ee10"; // test
+	private static final String APP_ID = "wx4f48dc6cc12b7bf3";
 	private static final int THUMB_SIZE = 300;
 	private static final int TIMELINE_SUPPORTED_VERSION = 0x21020001;
 
@@ -43,11 +43,7 @@ public class WeixinManager {
 		return mApi.registerApp(APP_ID);
 	}
 
-	public void sendMessage(Context context, ShareContent content) {
-		sendMessage(context, content, false);
-	}
-
-	public void sendMessage(Context context, ShareContent content,
+	public void sendMessage(ShareContent content,
 			boolean timelineScene) {
 		registWeixin();
 		WXWebpageObject webObj = new WXWebpageObject();
@@ -58,8 +54,8 @@ public class WeixinManager {
 		WXMediaMessage msg = new WXMediaMessage(webObj);
 		msg.title = "" + content.title;
 		msg.description = "" + content.content;
-		Bitmap thumbBmp = BitmapUtils.createImageThumbWithLim(content.imagePath,
-				THUMB_SIZE, THUMB_SIZE);
+		Bitmap thumbBmp = BitmapUtils.createImageThumbWithLim(
+				content.imagePath, THUMB_SIZE, THUMB_SIZE);
 		if (thumbBmp != null) {
 			msg.setThumbImage(thumbBmp);
 		}

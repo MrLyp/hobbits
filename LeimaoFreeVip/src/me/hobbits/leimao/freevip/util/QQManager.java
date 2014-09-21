@@ -6,6 +6,7 @@ package me.hobbits.leimao.freevip.util;
 import me.hobbits.leimao.freevip.R;
 import me.hobbits.leimao.freevip.util.ShareUtils.ShareContent;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -19,28 +20,27 @@ import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
 public class QQManager {
-	private static QQManager mIns;
-	private static final String APP_ID = "1101054618";
-	private static final String APP_KEY = "01LOJIWRpTrW0w6u";
+	private static final String APP_ID = "1102291442";
+	private static final String APP_KEY = "4PxTzHngEC3A6xx0";
 
 	private static int shareType = QQShare.SHARE_TO_QQ_TYPE_DEFAULT;
 
-	private Activity mActivity;
+	private Context mContext;
 	public Tencent mTencent;
 	public QQShare mQQShare;
 
-	public QQManager(Activity activity) {
-		mActivity = activity;
+	public QQManager(Context context) {
+		mContext = context;
 		init();
 	}
 
 	private void init() {
 		try {
 			mTencent = Tencent.createInstance(APP_ID,
-					mActivity.getApplicationContext());
+					mContext.getApplicationContext());
 			if (mTencent == null)
 				return;
-			mQQShare = new QQShare(mActivity, mTencent.getQQToken());
+			mQQShare = new QQShare(mContext, mTencent.getQQToken());
 		} catch (Exception e) {
 			Log.e("QQManager", "Init Failed", e);
 		}
@@ -55,7 +55,7 @@ public class QQManager {
 		if (!StringUtils.isEmpty(sc.url))
 			params.putString(QQShare.SHARE_TO_QQ_TARGET_URL, sc.url);
 		params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL, sc.imagePath);
-		String appName = mActivity.getResources().getString(R.string.app_name);
+		String appName = mContext.getResources().getString(R.string.app_name);
 		if (StringUtils.isEmpty(appName))
 			appName = "免费高清视频";
 		params.putString(QQShare.SHARE_TO_QQ_APP_NAME, appName);
@@ -64,11 +64,11 @@ public class QQManager {
 
 		if (mQQShare == null) {
 			init();
-			Toast.makeText(mActivity, "分享失败，请稍后再试!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(mContext, "分享失败，请稍后再试!", Toast.LENGTH_SHORT).show();
 			return;
 		}
 
-		mQQShare.shareToQQ(mActivity, params, new IUiListener() {
+		mQQShare.shareToQQ((Activity)mContext, params, new IUiListener() {
 
 			@Override
 			public void onCancel() {

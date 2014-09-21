@@ -47,7 +47,7 @@ public abstract class BaseDBHandler {
 		DBHelper helper = DBHelper.getIns(mContext);
 		return helper == null ? null : helper.getWritableDatabase();
 	}
-	
+
 	protected String convertJsonToBase64(JsonItem object) {
 		ByteArrayOutputStream toByte = new ByteArrayOutputStream();
 		try {

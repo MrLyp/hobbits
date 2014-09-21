@@ -1,29 +1,29 @@
 package me.hobbits.leimao.freevip.ui.activity;
 
-import cn.gandalf.json.ErrorResp;
-import cn.gandalf.task.HandlerMessageTask;
-import cn.gandalf.task.HandlerMessageTask.Callback;
-import cn.gandalf.task.HttpConnectTask;
-import cn.gandalf.widget.AsyncImageView;
+import me.hobbits.leimao.freevip.R;
 import me.hobbits.leimao.freevip.model.Balance;
 import me.hobbits.leimao.freevip.model.Goods;
 import me.hobbits.leimao.freevip.model.SubmitSuccess;
 import me.hobbits.leimao.freevip.net.HttpManager;
 import me.hobbits.leimao.freevip.ui.widget.TitlebarView;
 import me.hobbits.leimao.freevip.util.GlobalValue;
-import me.hobbits.leimao.freevip.R;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.gandalf.json.ErrorResp;
+import cn.gandalf.task.BaseTask;
+import cn.gandalf.task.BaseTask.Callback;
+import cn.gandalf.task.HttpConnectTask;
+import cn.gandalf.widget.AsyncImageView;
 
 public class ExchangeActivity extends BaseFragmentActivity implements
 		OnClickListener {
 
-	public static final String EXTRA_GOODS_ID = "extra_goods_id";
+	public static final String EXTRA_GOODS_INDEX = "extra_goods_idx";
 
 	private TitlebarView mTitlebarView;
 	private AsyncImageView mLogo;
@@ -41,6 +41,7 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mContext = this;
+		initContent();
 	}
 
 	@Override
@@ -62,11 +63,10 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 		mDetail = (TextView) findViewById(R.id.detail);
 		mConfirm = (TextView) findViewById(R.id.confirm);
 		mConfirm.setOnClickListener(this);
-		initContent();
 	}
 
 	private void initContent() {
-		int idx = getIntent().getIntExtra(EXTRA_GOODS_ID, -1);
+		int idx = getIntent().getIntExtra(EXTRA_GOODS_INDEX, -1);
 		if (idx == -1)
 			return;
 		mGoods = GlobalValue.getIns(this).getGoodsItem(idx);
@@ -103,12 +103,26 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 		mTask.setCallback(new Callback() {
 
 			@Override
-			public void onSuccess(HandlerMessageTask task, Object t) {
+			public void onSuccess(BaseTask task, Object t) {
 				SubmitSuccess result = (SubmitSuccess) mTask.getResult();
+				if (result != null && result.getResult() == 1) {
+					Intent intent = new Intent(mContext,
+							ExchangeSuccessActivity.class);
+					intent.putExtra(
+							ExchangeSuccessActivity.EXTRA_SUBMIT_SUCCESS,
+							result);
+					intent.putExtra(
+							ExchangeSuccessActivity.EXTRA_GOODS,
+							mGoods);
+					startActivity(intent);
+				} else {
+					Toast.makeText(mContext, "兑换失败，请稍后再试", Toast.LENGTH_SHORT)
+							.show();
+				}
 			}
 
 			@Override
-			public void onFail(HandlerMessageTask task, Object t) {
+			public void onFail(BaseTask task, Object t) {
 				ErrorResp error = mTask.getError();
 				if (error != null) {
 					Toast.makeText(mContext, error.getError_message(),

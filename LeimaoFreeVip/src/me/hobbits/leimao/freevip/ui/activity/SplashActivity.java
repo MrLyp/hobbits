@@ -1,9 +1,9 @@
 package me.hobbits.leimao.freevip.ui.activity;
 
 import cn.gandalf.json.ErrorResp;
-import cn.gandalf.task.HandlerMessageTask;
+import cn.gandalf.task.BaseTask;
+import cn.gandalf.task.BaseTask.Callback;
 import cn.gandalf.task.HttpConnectTask;
-import cn.gandalf.task.HandlerMessageTask.Callback;
 import me.hobbits.leimao.freevip.R;
 import me.hobbits.leimao.freevip.model.SignInSuccess;
 import me.hobbits.leimao.freevip.net.HttpManager;
@@ -36,13 +36,13 @@ public class SplashActivity extends BaseActivity implements Runnable {
 		mTask.setCallback(new Callback() {
 
 			@Override
-			public void onSuccess(HandlerMessageTask task, Object t) {
+			public void onSuccess(BaseTask task, Object t) {
 				SignInSuccess signIn = (SignInSuccess) mTask.getResult();
 				GlobalValue.getIns(mContext).updateUserInfo(signIn);
 			}
 
 			@Override
-			public void onFail(HandlerMessageTask task, Object t) {
+			public void onFail(BaseTask task, Object t) {
 				ErrorResp error = mTask.getError();
 				if (error != null) {
 					Toast.makeText(mContext, error.getError_message(),

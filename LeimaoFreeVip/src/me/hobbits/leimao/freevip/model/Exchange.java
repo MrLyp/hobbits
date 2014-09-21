@@ -11,6 +11,9 @@ public class Exchange implements JsonItem {
 	private String card_no;
 	private String card_pwd;
 	private String card_expire_time;
+	private int price;
+	private String img;
+	private String detail;
 
 	public int getTrade_id() {
 		return trade_id;
@@ -66,6 +69,30 @@ public class Exchange implements JsonItem {
 
 	public void setCard_expire_time(String card_expire_time) {
 		this.card_expire_time = card_expire_time;
+	}
+
+	public int getPrice() {
+		return price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
+	public void setImg(String img) {
+		this.img = img;
+	}
+
+	public String getDetail() {
+		return detail;
+	}
+
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 
 }

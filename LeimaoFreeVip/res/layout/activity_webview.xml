@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bkg_grey"
+    android:orientation="vertical" >
+
+    <me.hobbits.leimao.freevip.ui.widget.TitlebarView
+        xmlns:leimao="http://schemas.android.com/apk/res/me.hobbits.leimao.freevip"
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/titlebar_height"
+        android:background="@color/bkg_green"
+        leimao:titleLeftBtnSrc="@drawable/ic_back"
+        leimao:titleTitleText="帮助" />
+
+    <FrameLayout
+        android:id="@+id/stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </FrameLayout>
+
+</LinearLayout>

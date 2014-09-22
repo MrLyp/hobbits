@@ -4,7 +4,12 @@ import java.io.File;
 import java.io.Serializable;
 
 import me.hobbits.leimao.freevip.R;
+import me.hobbits.leimao.freevip.net.HttpManager;
 
+import cn.gandalf.json.ErrorResp;
+import cn.gandalf.task.BaseTask;
+import cn.gandalf.task.BaseTask.Callback;
+import cn.gandalf.task.HttpConnectTask;
 import cn.gandalf.util.BitmapUtils;
 
 import android.content.Context;
@@ -13,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.Toast;
 
 public class ShareUtils {
 
@@ -49,14 +55,36 @@ public class ShareUtils {
 			mShareImagePath = shareImage.getAbsolutePath();
 	}
 
-	public static String getShareImagePath(Context context,boolean isLogo) {
+	public static String getShareImagePath(Context context, boolean isLogo) {
 		if (mShareImagePath == null || !(new File(mShareImagePath).exists())) {
 			try {
-				initShareFile(context,isLogo);
+				initShareFile(context, isLogo);
 			} catch (Exception e) {
 			}
 		}
 		return mShareImagePath;
+	}
+
+	public static void updateShareResult(final Context context) {
+		final HttpConnectTask mTask = new HttpConnectTask(context,
+				HttpManager.getShareParam());
+		mTask.setShowCodeMsg(false);
+		mTask.setCallback(new Callback() {
+
+			@Override
+			public void onSuccess(BaseTask task, Object t) {
+				ErrorResp res = (ErrorResp) mTask.getResult();
+				if (res.getResult() == 1)
+					Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT)
+							.show();
+			}
+
+			@Override
+			public void onFail(BaseTask task, Object t) {
+
+			}
+		});
+		mTask.execute();
 	}
 
 	public static class ShareContent implements Serializable {

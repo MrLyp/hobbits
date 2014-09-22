@@ -122,8 +122,8 @@ public class MainFragment extends BaseFragment {
 		}
 		mBalance = GlobalValue.getIns(mContext).getBalance();
 		if (mBalance != null) {
-			mAccount.setText("我的点数\n" + mBalance.getBalance());
-			mTotalBalance.setText("今日总计发放点数\n" + mBalance.getToday_gold());
+			mAccount.setText("我的点数\n" + (int)mBalance.getBalance());
+			mTotalBalance.setText("今日总计发放点数\n" + (int)mBalance.getToday_gold());
 		}
 		ViewPageAdapter pageAdapter = new ViewPageAdapter(mContext);
 		mBannerList = GlobalValue.getIns(mContext).getBanners();

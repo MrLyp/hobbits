@@ -14,6 +14,12 @@ import me.hobbits.leimao.freevip.ui.widget.PopupMenu.OnPopupMenuClickListener;
 import me.hobbits.leimao.freevip.ui.widget.ShareDialog;
 import me.hobbits.leimao.freevip.ui.widget.TitlebarView;
 import me.hobbits.leimao.freevip.util.GlobalValue;
+import me.hobbits.leimao.freevip.util.QQManager;
+import me.hobbits.leimao.freevip.util.ShareUtils;
+import me.hobbits.leimao.freevip.util.WeixinManager;
+import me.hobbits.leimao.freevip.util.ShareUtils.ShareChannel;
+import me.hobbits.leimao.freevip.util.ShareUtils.ShareContent;
+import me.hobbits.leimao.freevip.wxapi.WeiboTransferActivity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,12 +27,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.Toast;
 import cn.gandalf.task.BaseTask;
 import cn.gandalf.task.BaseTask.Callback;
 import cn.gandalf.util.PreferenceManager;
 
-public class MainActivity extends BaseFragmentActivity {
+public class MainActivity extends BaseFragmentActivity implements
+		OnClickListener {
 
 	public static final String KEY_NEW_MESSAGE = "key_new_message";
 	public static final String EXTRA_FRAGMENT_INDEX = "extra_fragment_index";
@@ -44,6 +52,9 @@ public class MainActivity extends BaseFragmentActivity {
 	private Fragment mAboutFragment;
 
 	private Context mContext;
+	private QQManager mQQManager;
+	private WeixinManager mWeiXinManager;
+	private ShareDialog mShareDialog;
 
 	private OnPopupMenuClickListener mOnPopupMenuClickListener = new OnPopupMenuClickListener() {
 
@@ -69,8 +80,7 @@ public class MainActivity extends BaseFragmentActivity {
 				mTitlebarView.setRightImageResource(R.drawable.ic_refresh);
 				mTitlebarView.getRightButton().setVisibility(View.VISIBLE);
 			} else if (index == PopupMenu.INDEX_RECOMMEND) {
-				ShareDialog dialog = new ShareDialog(mContext);
-				dialog.show();
+				mShareDialog.show();
 			} else if (index == PopupMenu.INDEX_HELP) {
 				switchFragment(mHelpFragment);
 				mTitlebarView.setTitleTextResource(R.string.title_help);
@@ -86,27 +96,93 @@ public class MainActivity extends BaseFragmentActivity {
 		}
 	};
 
-	private View.OnClickListener mOnClickListener = new View.OnClickListener() {
+	@Override
+	public void onClick(View v) {
+		if (v == mTitlebarView.getLeftButton()) {
+			mPopupMenu.showAsDropDown(v);
+		} else if (v == mTitlebarView.getRightButton()) {
+			if (mCurrentFragment == mRecordFragment) {
+				((RecordFragment) mCurrentFragment).refresh();
+			} else if (mCurrentFragment == mTaskFragment) {
+				((TaskFragment) mCurrentFragment).refresh();
+			} else {
+				PreferenceManager.getInstance(mContext).putBoolean(
+						KEY_NEW_MESSAGE, false);
+				mTitlebarView.setDotVisibility(View.INVISIBLE);
+				startActivity(new Intent(MainActivity.this,
+						MessageActivity.class));
+			}
+		}
+	}
+
+	private OnClickListener mOnShareDialogClickListener = new OnClickListener() {
 
 		@Override
 		public void onClick(View v) {
-			if (v == mTitlebarView.getLeftButton()) {
-				mPopupMenu.showAsDropDown(v);
-			} else if (v == mTitlebarView.getRightButton()) {
-				if (mCurrentFragment == mRecordFragment) {
-					((RecordFragment) mCurrentFragment).refresh();
-				} else if (mCurrentFragment == mTaskFragment) {
-					((TaskFragment) mCurrentFragment).refresh();
-				} else {
-					PreferenceManager.getInstance(mContext).putBoolean(
-							KEY_NEW_MESSAGE, false);
-					mTitlebarView.setDotVisibility(View.INVISIBLE);
-					startActivity(new Intent(MainActivity.this,
-							MessageActivity.class));
-				}
+			switch (v.getId()) {
+			case R.id.tv_wechat:
+				onShare(ShareChannel.WECHAT);
+				break;
+			case R.id.tv_friend_circle:
+				onShare(ShareChannel.FRIEND_CIRCLE);
+				break;
+			case R.id.tv_qq:
+				onShare(ShareChannel.QQ);
+				break;
+			case R.id.tv_weibo:
+				onShare(ShareChannel.WEIBO);
+				break;
+			case R.id.iv_close:
+				mShareDialog.dismiss();
+				break;
+			default:
+				break;
 			}
+
 		}
 	};
+	
+	private void onShare(ShareChannel channel) {
+		ShareContent sc;
+		switch (channel) {
+		case WECHAT:
+			sc = new ShareContent();
+			sc.title = "迅雷白金会员免费送啦！";
+			sc.content = "海量高清视频免费看，种子资源随便下~你懂的！";
+			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
+			sc.url = ShareUtils.URL_SHARE;
+			mWeiXinManager.sendMessage(mContext, sc, false);
+			break;
+		case FRIEND_CIRCLE:
+			sc = new ShareContent();
+			sc.title = "迅雷白金会员免费送啦！用来干嘛？你懂的!";
+			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
+			sc.url = ShareUtils.URL_SHARE;
+			mWeiXinManager.sendMessage(mContext, sc, true);
+			break;
+		case QQ:
+			sc = new ShareContent();
+			sc.title = "迅雷白金会员免费送啦！";
+			sc.content = "海量高清视频免费看，种子资源随便下~你懂的！";
+			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
+			sc.url = ShareUtils.URL_SHARE;
+			mQQManager.sendMessage(sc);
+			break;
+		case WEIBO:
+			sc = new ShareContent();
+			sc.title = "【免费高清视频】这个APP太给力了，可以免费用迅雷白金会员！同时还有种子资源哦！";
+			sc.imagePath = ShareUtils.getShareImagePath(mContext, false);
+			sc.url = ShareUtils.URL_SHARE;
+			Intent intent = new Intent(mContext, WeiboTransferActivity.class);
+			intent.setAction(WeiboTransferActivity.ACTION_SEND_MSG);
+			intent.putExtra(WeiboTransferActivity.EXTRA_DATA, sc);
+			mContext.startActivity(intent);
+			break;
+		default:
+			return;
+		}
+		mShareDialog.dismiss();
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +193,8 @@ public class MainActivity extends BaseFragmentActivity {
 		mTaskFragment = new TaskFragment();
 		mHelpFragment = new HelpFragment();
 		mAboutFragment = new AboutFragment();
+		mQQManager = new QQManager(this);
+		mWeiXinManager = new WeixinManager(this);
 		initContent();
 		initMessageTask();
 	};
@@ -130,8 +208,8 @@ public class MainActivity extends BaseFragmentActivity {
 	protected void initViews() {
 		super.initViews();
 		mTitlebarView = (TitlebarView) findViewById(R.id.titlebar);
-		mTitlebarView.setOnLeftButtonClickListener(mOnClickListener);
-		mTitlebarView.setOnRightButtonClickListener(mOnClickListener);
+		mTitlebarView.setOnLeftButtonClickListener(this);
+		mTitlebarView.setOnRightButtonClickListener(this);
 		mTitlebarView.setTitleText("");
 		mTitlebarView.setDotVisibility(View.VISIBLE);
 		mTitlebarView.setTitleImageResource(R.drawable.img_title);
@@ -147,6 +225,8 @@ public class MainActivity extends BaseFragmentActivity {
 				.getBoolean(KEY_NEW_MESSAGE, false);
 		mTitlebarView.setDotVisibility(isDotVisible ? View.VISIBLE
 				: View.INVISIBLE);
+		mShareDialog = new ShareDialog(this);
+		mShareDialog.setOnClickListener(mOnShareDialogClickListener);
 	}
 
 	private void initContent() {

@@ -44,12 +44,13 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:paddingLeft="50dp"
-                android:paddingRight="30dp"
                 android:gravity="left|center_vertical"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:paddingLeft="50dp"
+                android:paddingRight="30dp" >
 
                 <LinearLayout
+                    android:id="@+id/ll_account"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
@@ -66,11 +67,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:textColor="@color/text_green_light"
-                        android:text="点击复制" />
+                        android:text="点击复制"
+                        android:textColor="@color/text_green_light" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/ll_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal" >
@@ -84,11 +86,11 @@
 
                     <TextView
                         android:id="@+id/copy_pwd"
-                        android:layout_weight="2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_green_light"
-                        android:text="点击复制" />
+                        android:layout_weight="2"
+                        android:text="点击复制"
+                        android:textColor="@color/text_green_light" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -96,9 +98,9 @@
                 android:id="@+id/tv_valid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/text_gray"
                 android:layout_gravity="center_horizontal"
-                android:text="有效期至：XXXX-XX-XX XX：XX" />
+                android:text="有效期至：XXXX-XX-XX XX：XX"
+                android:textColor="@color/text_gray" />
         </LinearLayout>
 
         <TextView
@@ -106,18 +108,18 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginBottom="18dp"
-            android:lineSpacingExtra="3dp"
             android:layout_marginTop="18dp"
             android:layout_weight="1"
+            android:lineSpacingExtra="3dp"
             android:text="@string/record_info" />
 
         <Button
             android:id="@+id/jump_out"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_green_light"
             android:background="@drawable/btn_white"
-            android:text="去  赚  点  数" />
+            android:text="去  赚  点  数"
+            android:textColor="@color/text_green_light" />
     </LinearLayout>
 
 </LinearLayout>

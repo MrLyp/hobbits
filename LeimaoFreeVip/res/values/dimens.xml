@@ -1,7 +1,7 @@
 <resources>
 
     <dimen name="titlebar_height">48dp</dimen>
-    <dimen name="titlebar_padding">12dp</dimen>
+    <dimen name="titlebar_padding">5dp</dimen>
     <dimen name="titlebar_dot_margin">8dp</dimen>
     <dimen name="main_header_height">148dp</dimen>
     <dimen name="main_header_info_height">64dp</dimen>

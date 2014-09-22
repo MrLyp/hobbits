@@ -1,5 +1,6 @@
 package me.hobbits.leimao.freevip.ui.activity;
 
+import cn.gandalf.util.StringUtils;
 import cn.gandalf.util.SystemUtils;
 import cn.gandalf.widget.AsyncImageView;
 import me.hobbits.leimao.freevip.model.Exchange;
@@ -82,10 +83,13 @@ public class RecordDetailActivity extends BaseActivity implements
 		mExchange = (Exchange) obj;
 		mLogo.setImageUrlAndLoad(mExchange.getImg());
 		mAccount.setText("会员账号 : " + mExchange.getCard_no());
-		mPwd.setText("密码  : " + mExchange.getCard_pwd());
-		String detail = mExchange.getDetail();
-		detail.replaceAll("\r\n", "\n");
-		mDetail.setText(detail);
-		mValidTime.setText("有效期至 : " + mExchange.getCard_expire_time());
+		mDetail.setText(mExchange.getDetail());
+		if (StringUtils.isEmpty(mExchange.getCard_pwd())) {
+			findViewById(R.id.ll_pwd).setVisibility(View.INVISIBLE);
+			mValidTime.setText("有效期信息请查看如下注意事项");
+		} else {
+			mPwd.setText("密码 : " + mExchange.getCard_pwd());
+			mValidTime.setText("有效期至" + mExchange.getCard_expire_time());
+		}
 	}
 }

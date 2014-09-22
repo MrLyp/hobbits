@@ -1,5 +1,6 @@
 package me.hobbits.leimao.freevip.wxapi;
 
+import me.hobbits.leimao.freevip.util.ShareUtils;
 import me.hobbits.leimao.freevip.util.ShareUtils.ShareContent;
 import me.hobbits.leimao.freevip.util.WeiboManager;
 import android.app.Activity;

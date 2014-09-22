@@ -68,7 +68,7 @@ public class QQManager {
 			return;
 		}
 
-		mQQShare.shareToQQ((Activity)mContext, params, new IUiListener() {
+		mQQShare.shareToQQ((Activity) mContext, params, new IUiListener() {
 
 			@Override
 			public void onCancel() {

@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import cn.gandalf.util.StringUtils;
 import cn.gandalf.util.SystemUtils;
 import cn.gandalf.widget.AsyncImageView;
 
@@ -103,9 +104,14 @@ public class ExchangeSuccessActivity extends BaseActivity implements
 		mGoods = (Goods) obj;
 		mLogo.setImageUrlAndLoad(mGoods.getImg());
 		mAccount.setText("会员账号 : " + mCardInfo.getCard_no());
-		mPwd.setText("密码 : " + mCardInfo.getCard_pwd());
 		mDetail.setText(mGoods.getDetail());
-		mValidTime.setText("有效期至" + mCardInfo.getCard_expire_time());
+		if (StringUtils.isEmpty(mCardInfo.getCard_pwd())) {
+			findViewById(R.id.ll_pwd).setVisibility(View.INVISIBLE);
+			mValidTime.setText("有效期信息请查看如下注意事项");
+		} else {
+			mPwd.setText("密码 : " + mCardInfo.getCard_pwd());
+			mValidTime.setText("有效期至" + mCardInfo.getCard_expire_time());
+		}
 	}
 
 }

@@ -3,7 +3,6 @@ package me.hobbits.leimao.freevip.net;
 import me.hobbits.leimao.freevip.model.Balance;
 import me.hobbits.leimao.freevip.model.BannerList;
 import me.hobbits.leimao.freevip.model.BasicConfig;
-import me.hobbits.leimao.freevip.model.ErrorResp;
 import me.hobbits.leimao.freevip.model.ExchangeList;
 import me.hobbits.leimao.freevip.model.GoodsList;
 import me.hobbits.leimao.freevip.model.IncomeList;
@@ -17,6 +16,7 @@ import org.apache.http.NameValuePair;
 
 import android.content.Context;
 import cn.gandalf.exception.CustomException;
+import cn.gandalf.json.ErrorResp;
 import cn.gandalf.json.JsonItem;
 import cn.gandalf.net.BaseHttpManager;
 import cn.gandalf.util.CodecUtils;

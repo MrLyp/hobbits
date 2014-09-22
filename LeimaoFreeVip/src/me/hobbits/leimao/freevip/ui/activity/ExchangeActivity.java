@@ -88,8 +88,7 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 		if (v == mTitlebarView.getLeftButton()) {
 			finish();
 		} else if (v == mTitlebarView.getRightButton()) {
-			Toast.makeText(ExchangeActivity.this, "why???", Toast.LENGTH_SHORT)
-					.show();
+			startActivity(new Intent(this, WebViewActivity.class));
 		} else if (v == mConfirm) {
 			onSubmit();
 		}
@@ -111,9 +110,7 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 					intent.putExtra(
 							ExchangeSuccessActivity.EXTRA_SUBMIT_SUCCESS,
 							result);
-					intent.putExtra(
-							ExchangeSuccessActivity.EXTRA_GOODS,
-							mGoods);
+					intent.putExtra(ExchangeSuccessActivity.EXTRA_GOODS, mGoods);
 					startActivity(intent);
 				} else {
 					Toast.makeText(mContext, "兑换失败，请稍后再试", Toast.LENGTH_SHORT)

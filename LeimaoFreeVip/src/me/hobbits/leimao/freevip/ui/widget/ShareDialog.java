@@ -19,8 +19,7 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ShareDialog extends Dialog implements
-		android.view.View.OnClickListener {
+public class ShareDialog extends Dialog {
 
 	private TextView mWechat;
 	private TextView mFriendCircle;
@@ -28,9 +27,7 @@ public class ShareDialog extends Dialog implements
 	private TextView mWeibo;
 	private ImageView mExit;
 	private Context mContext;
-	private QQManager mQQManager;
-	private WeiboManager mWeiboManager;
-	private WeixinManager mWeiXinManager;
+	private android.view.View.OnClickListener mOnClickListener;
 
 	public ShareDialog(Context context) {
 		super(context);
@@ -43,9 +40,6 @@ public class ShareDialog extends Dialog implements
 		WindowManager.LayoutParams lp = dialogWindow.getAttributes();
 		lp.width = (int) (ScreenUtils.getScreenWidth(context) * 0.8f);
 		dialogWindow.setAttributes(lp);
-		mQQManager = new QQManager(mContext);
-		mWeiboManager = new WeiboManager(mContext);
-		mWeiXinManager = new WeixinManager(mContext);
 	}
 
 	private void initViews() {
@@ -54,77 +48,14 @@ public class ShareDialog extends Dialog implements
 		mTencent = (TextView) findViewById(R.id.tv_qq);
 		mWeibo = (TextView) findViewById(R.id.tv_weibo);
 		mExit = (ImageView) findViewById(R.id.iv_close);
-		mWechat.setOnClickListener(this);
-		mFriendCircle.setOnClickListener(this);
-		mTencent.setOnClickListener(this);
-		mWeibo.setOnClickListener(this);
-		mExit.setOnClickListener(this);
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.tv_wechat:
-			onShare(ShareChannel.WECHAT);
-			break;
-		case R.id.tv_friend_circle:
-			onShare(ShareChannel.FRIEND_CIRCLE);
-			break;
-		case R.id.tv_qq:
-			onShare(ShareChannel.QQ);
-			break;
-		case R.id.tv_weibo:
-			onShare(ShareChannel.WEIBO);
-			break;
-		case R.id.iv_close:
-			dismiss();
-			break;
-		default:
-			break;
-		}
+	public void setOnClickListener(android.view.View.OnClickListener l) {
+		mOnClickListener = l;
+		mWechat.setOnClickListener(mOnClickListener);
+		mFriendCircle.setOnClickListener(mOnClickListener);
+		mTencent.setOnClickListener(mOnClickListener);
+		mWeibo.setOnClickListener(mOnClickListener);
+		mExit.setOnClickListener(mOnClickListener);
 	}
-
-	private void onShare(ShareChannel channel) {
-		ShareContent sc;
-		switch (channel) {
-		case WECHAT:
-			sc = new ShareContent();
-			sc.title = "迅雷白金会员免费送啦！";
-			sc.content = "海量高清视频免费看，种子资源随便下~你懂的！";
-			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
-			sc.url = ShareUtils.URL_SHARE;
-			mWeiXinManager.sendMessage(sc, false);
-			break;
-		case FRIEND_CIRCLE:
-			sc = new ShareContent();
-			sc.title = "迅雷白金会员免费送啦！用来干嘛？你懂的!";
-			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
-			sc.url = ShareUtils.URL_SHARE;
-			mWeiXinManager.sendMessage(sc, true);
-			break;
-		case QQ:
-			sc = new ShareContent();
-			sc.title = "迅雷白金会员免费送啦！";
-			sc.content = "海量高清视频免费看，种子资源随便下~你懂的！";
-			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
-			sc.url = ShareUtils.URL_SHARE;
-			mQQManager.sendMessage(sc);
-			break;
-		case WEIBO:
-			sc = new ShareContent();
-			sc.title = "【免费高清视频】这个APP太给力了，可以免费用迅雷白金会员！同时还有种子资源哦！";
-			sc.imagePath = ShareUtils.getShareImagePath(mContext, false);
-			sc.url = ShareUtils.URL_SHARE;
-			Intent intent = new Intent(mContext,
-					WeiboTransferActivity.class);
-			intent.setAction(WeiboTransferActivity.ACTION_SEND_MSG);
-			intent.putExtra(WeiboTransferActivity.EXTRA_DATA, sc);
-			mContext.startActivity(intent);
-			break;
-		default:
-			return;
-		}
-		dismiss();
-	}
-
 }

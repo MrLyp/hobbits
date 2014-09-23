@@ -1,6 +1,7 @@
 package me.hobbits.leimao.freevip.ui.widget;
 
 import me.hobbits.leimao.freevip.R;
+import me.hobbits.leimao.freevip.util.UnreadImageUtils;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 public class TitlebarView extends RelativeLayout {
 
+	public static final String KEY_NEW_MESSAGE_CLICKED = "key_new_message_clicked";
 	private View mTitlebarView;
 
 	private ImageButton ibLeft;
@@ -36,7 +38,7 @@ public class TitlebarView extends RelativeLayout {
 		ibRight = (ImageButton) mTitlebarView.findViewById(R.id.ib_right);
 		tvTitle = (TextView) mTitlebarView.findViewById(R.id.tv_title);
 		ivDot = (ImageView) mTitlebarView.findViewById(R.id.iv_dot);
-		ivDot.setVisibility(View.GONE);
+		UnreadImageUtils.getInstance(context).initUnreadImageVisibility(ivDot, KEY_NEW_MESSAGE_CLICKED);
 
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs,

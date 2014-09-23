@@ -52,10 +52,10 @@
                 android:layout_height="0dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="1"
-                android:paddingLeft="50dp"
-                android:paddingRight="50dp"
                 android:gravity="left|center_vertical"
-                android:orientation="vertical" >
+                android:orientation="vertical"
+                android:paddingLeft="50dp"
+                android:paddingRight="50dp" >
 
                 <LinearLayout
                     android:id="@+id/ll_account"
@@ -75,15 +75,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="2"
-                        android:textColor="@color/text_green_light"
-                        android:text="点击复制" />
+                        android:text="点击复制"
+                        android:textColor="@color/text_green_light" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/ll_pwd"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:paddingTop="10dp" >
 
                     <TextView
                         android:id="@+id/password"
@@ -94,11 +95,11 @@
 
                     <TextView
                         android:id="@+id/copy_pwd"
-                        android:layout_weight="2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/text_green_light"
-                        android:text="点击复制" />
+                        android:layout_weight="2"
+                        android:text="点击复制"
+                        android:textColor="@color/text_green_light" />
                 </LinearLayout>
             </LinearLayout>
 
@@ -127,11 +128,12 @@
             android:background="@drawable/btn_white"
             android:text="返回首页"
             android:textColor="@color/text_green_light" />
-        <Button
+
+        <Button
             android:id="@+id/jump_to_record"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:background="@drawable/btn_white"
             android:text="查看兑换记录"
             android:textColor="@color/text_green_light" />

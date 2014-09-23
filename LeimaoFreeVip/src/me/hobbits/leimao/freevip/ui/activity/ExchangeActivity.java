@@ -5,11 +5,13 @@ import me.hobbits.leimao.freevip.model.Balance;
 import me.hobbits.leimao.freevip.model.Goods;
 import me.hobbits.leimao.freevip.model.SubmitSuccess;
 import me.hobbits.leimao.freevip.net.HttpManager;
+import me.hobbits.leimao.freevip.ui.widget.AlertDialog;
 import me.hobbits.leimao.freevip.ui.widget.TitlebarView;
 import me.hobbits.leimao.freevip.util.GlobalValue;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
@@ -35,6 +37,7 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 	private TextView mDetail;
 
 	private Goods mGoods;
+	private Balance mBalance;
 	private Context mContext;
 
 	@Override
@@ -73,13 +76,13 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 		if (mGoods == null)
 			return;
 		mLogo.setImageUrlAndLoad(mGoods.getImg());
-		mRemain.setText("余" + mGoods.getQuantity() + "名额");
-		mPrice.setText("需" + mGoods.getPrice() + "点数");
+		mRemain.setText("余" + (int) mGoods.getQuantity() + "名额");
+		mPrice.setText("需" + (int) mGoods.getPrice() + "点数");
 		mName.setText(mGoods.getName());
 		mDetail.setText(mGoods.getDetail());
-		Balance balance = GlobalValue.getIns(this).getBalance();
-		if (balance != null) {
-			mAccount.setText("我的点数：" + balance.getBalance() + "点数");
+		mBalance = GlobalValue.getIns(this).getBalance();
+		if (mBalance != null) {
+			mAccount.setText("我的点数：" + mBalance.getBalance() + "点数");
 		}
 	}
 
@@ -90,7 +93,10 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 		} else if (v == mTitlebarView.getRightButton()) {
 			startActivity(new Intent(this, WebViewActivity.class));
 		} else if (v == mConfirm) {
-			onSubmit();
+			if (mBalance.getBalance() < mGoods.getPrice())
+				showCreditLowDialog();
+			else
+				showExchangeConfirmDialog();
 		}
 	}
 
@@ -130,5 +136,38 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 		mTask.setShowProgessDialog(true);
 		mTask.setShowCodeMsg(false);
 		mTask.execute();
+	}
+
+	private void showExchangeConfirmDialog() {
+		final AlertDialog dialog = new AlertDialog(this);
+		String content = "兑换 : " + mGoods.getName() + "\n花费 ： "
+				+ mGoods.getPrice() + "点数";
+		dialog.setTitle("请确认以下信息").setContent(content)
+				.setContentGravity(Gravity.LEFT)
+				.setPositiveButton("马上兑换", new OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						onSubmit();
+						dialog.dismiss();
+					}
+				});
+		dialog.show();
+	}
+
+	private void showCreditLowDialog() {
+		final AlertDialog dialog = new AlertDialog(this);
+		String content = "你的点数不够，还不能马上兑换呢\n赶快去赚些点数吧！";
+		dialog.setTitle("提示").setContent(content)
+				.setContentGravity(Gravity.CENTER)
+				.setPositiveButton("马上去赚", new OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						startActivity(new Intent(mContext, CreditActivity.class));
+						dialog.dismiss();
+					}
+				});
+		dialog.show();
 	}
 }

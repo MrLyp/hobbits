@@ -2,7 +2,6 @@ package me.hobbits.leimao.freevip.ui.activity;
 
 import me.hobbits.leimao.freevip.R;
 import me.hobbits.leimao.freevip.model.SignInSuccess;
-import me.hobbits.leimao.freevip.net.HttpManager;
 import me.hobbits.leimao.freevip.task.QueryMessageTask;
 import me.hobbits.leimao.freevip.ui.fragment.AboutFragment;
 import me.hobbits.leimao.freevip.ui.fragment.HelpFragment;
@@ -16,9 +15,9 @@ import me.hobbits.leimao.freevip.ui.widget.TitlebarView;
 import me.hobbits.leimao.freevip.util.GlobalValue;
 import me.hobbits.leimao.freevip.util.QQManager;
 import me.hobbits.leimao.freevip.util.ShareUtils;
-import me.hobbits.leimao.freevip.util.WeixinManager;
 import me.hobbits.leimao.freevip.util.ShareUtils.ShareChannel;
 import me.hobbits.leimao.freevip.util.ShareUtils.ShareContent;
+import me.hobbits.leimao.freevip.util.WeixinManager;
 import me.hobbits.leimao.freevip.wxapi.WeiboTransferActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -31,12 +30,12 @@ import android.view.View.OnClickListener;
 import android.widget.Toast;
 import cn.gandalf.task.BaseTask;
 import cn.gandalf.task.BaseTask.Callback;
+import cn.gandalf.util.DefaultProperties;
 import cn.gandalf.util.PreferenceManager;
 
 public class MainActivity extends BaseFragmentActivity implements
 		OnClickListener {
 
-	public static final String KEY_NEW_MESSAGE = "key_new_message";
 	public static final String EXTRA_FRAGMENT_INDEX = "extra_fragment_index";
 
 	private TitlebarView mTitlebarView;
@@ -99,15 +98,15 @@ public class MainActivity extends BaseFragmentActivity implements
 	@Override
 	public void onClick(View v) {
 		if (v == mTitlebarView.getLeftButton()) {
-			mPopupMenu.showAsDropDown(v);
+			mPopupMenu.showAsDropDown(v, 10, 0);
 		} else if (v == mTitlebarView.getRightButton()) {
 			if (mCurrentFragment == mRecordFragment) {
 				((RecordFragment) mCurrentFragment).refresh();
 			} else if (mCurrentFragment == mTaskFragment) {
 				((TaskFragment) mCurrentFragment).refresh();
 			} else {
-				PreferenceManager.getInstance(mContext).putBoolean(
-						KEY_NEW_MESSAGE, false);
+				DefaultProperties.setBoolPref(mContext,
+						TitlebarView.KEY_NEW_MESSAGE_CLICKED, true);
 				mTitlebarView.setDotVisibility(View.INVISIBLE);
 				startActivity(new Intent(MainActivity.this,
 						MessageActivity.class));
@@ -141,9 +140,10 @@ public class MainActivity extends BaseFragmentActivity implements
 
 		}
 	};
-	
+
 	private void onShare(ShareChannel channel) {
 		ShareContent sc;
+		GlobalValue.getIns(mContext).setShareChannel(channel);
 		switch (channel) {
 		case WECHAT:
 			sc = new ShareContent();
@@ -221,10 +221,6 @@ public class MainActivity extends BaseFragmentActivity implements
 			id = "ID:" + info.getUser_id();
 		mPopupMenu.setIdText(id);
 		mPopupMenu.setOnPopupMenuClickListener(mOnPopupMenuClickListener);
-		boolean isDotVisible = PreferenceManager.getInstance(mContext)
-				.getBoolean(KEY_NEW_MESSAGE, false);
-		mTitlebarView.setDotVisibility(isDotVisible ? View.VISIBLE
-				: View.INVISIBLE);
 		mShareDialog = new ShareDialog(this);
 		mShareDialog.setOnClickListener(mOnShareDialogClickListener);
 	}
@@ -246,10 +242,12 @@ public class MainActivity extends BaseFragmentActivity implements
 
 			@Override
 			public void onSuccess(BaseTask task, Object t) {
-				if (mTask.getNewCount() > 0)
+				if (mTask.getNewCount() > 0) {
+					DefaultProperties.setBoolPref(mContext, TitlebarView.KEY_NEW_MESSAGE_CLICKED, false);
 					mTitlebarView.setDotVisibility(View.VISIBLE);
-				else
+				} else {
 					mTitlebarView.setDotVisibility(View.INVISIBLE);
+				}
 			}
 
 			@Override

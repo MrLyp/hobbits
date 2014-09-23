@@ -14,5 +14,6 @@
     <color name="bkg_gray">#f6f6f6</color>
     <color name="text_gray">#7d7d7d</color>
     <color name="list_selected">#ededed</color>
+    <color name="text_green_pressed">#3a7e1a</color>
 
 </resources>

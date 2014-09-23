@@ -45,10 +45,6 @@ public class MessageActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		mMessageHandler = new MessageHandler(this);
 		List<Message> list = mMessageHandler.queryAllMessage();
-		Message msg = new Message();
-		msg.setTitle("这是测试用的");
-		msg.setContent("这也是测试用的");
-		list.add(msg);
 		adapterMessage.setData(list);
 		adapterMessage.notifyDataSetChanged();
 	}

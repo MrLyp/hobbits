@@ -5,12 +5,14 @@ import java.io.Serializable;
 
 import me.hobbits.leimao.freevip.R;
 import me.hobbits.leimao.freevip.net.HttpManager;
+import me.hobbits.leimao.freevip.ui.widget.PopupMenu;
 
 import cn.gandalf.json.ErrorResp;
 import cn.gandalf.task.BaseTask;
 import cn.gandalf.task.BaseTask.Callback;
 import cn.gandalf.task.HttpConnectTask;
 import cn.gandalf.util.BitmapUtils;
+import cn.gandalf.util.DefaultProperties;
 
 import android.content.Context;
 import android.content.Intent;
@@ -66,6 +68,9 @@ public class ShareUtils {
 	}
 
 	public static void updateShareResult(final Context context) {
+		if (!ShareChannel.FRIEND_CIRCLE.equals(GlobalValue.getIns(context)
+				.getShareChannel()))
+			return;
 		final HttpConnectTask mTask = new HttpConnectTask(context,
 				HttpManager.getShareParam());
 		mTask.setShowCodeMsg(false);
@@ -74,9 +79,11 @@ public class ShareUtils {
 			@Override
 			public void onSuccess(BaseTask task, Object t) {
 				ErrorResp res = (ErrorResp) mTask.getResult();
-				if (res.getResult() == 1)
-					Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT)
-							.show();
+				if (res.getResult() == 1) {
+					Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT).show();
+					DefaultProperties.setBoolPref(context,
+							PopupMenu.KEY_SHARE_SUCCESS, true);
+				}
 			}
 
 			@Override

@@ -122,8 +122,8 @@ public class MainFragment extends BaseFragment {
 		}
 		mBalance = GlobalValue.getIns(mContext).getBalance();
 		if (mBalance != null) {
-			mAccount.setText("我的点数\n" + (int)mBalance.getBalance());
-			mTotalBalance.setText("今日总计发放点数\n" + (int)mBalance.getToday_gold());
+			mAccount.setText("" + (int) mBalance.getBalance());
+			mTotalBalance.setText("" + (int) mBalance.getToday_gold());
 		}
 		ViewPageAdapter pageAdapter = new ViewPageAdapter(mContext);
 		mBannerList = GlobalValue.getIns(mContext).getBanners();
@@ -199,7 +199,7 @@ public class MainFragment extends BaseFragment {
 				viewHolder.tvTitle.setText("" + goods.getName());
 				viewHolder.tvLeft.setText("余" + (int) goods.getQuantity()
 						+ "名额");
-				viewHolder.tvPoint.setText("需" + (int)goods.getPrice() + "点数");
+				viewHolder.tvPoint.setText("需" + (int) goods.getPrice() + "点数");
 				viewHolder.ivTag
 						.setVisibility(goods.getFlag() == 0 ? View.INVISIBLE
 								: View.VISIBLE);

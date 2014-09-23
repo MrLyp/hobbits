@@ -1,6 +1,8 @@
 package me.hobbits.leimao.freevip.ui.widget;
 
+import cn.gandalf.util.DefaultProperties;
 import me.hobbits.leimao.freevip.R;
+import me.hobbits.leimao.freevip.util.UnreadImageUtils;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 public class PopupMenu extends PopupWindow {
 
+	public static final String KEY_SHARE_SUCCESS = "key_share_success";
 	public static final int INDEX_MAIN = 0;
 	public static final int INDEX_RECORD = 1;
 	public static final int INDEX_TASK = 2;
@@ -28,7 +31,8 @@ public class PopupMenu extends PopupWindow {
 	private View tvRecommend;
 	private View tvHelp;
 	private View tvAbout;
-	private ImageView mainIndex, recordIndex, taskIndex, helpIndex, aboutIndex;
+	private ImageView mainIndex, recordIndex, taskIndex, helpIndex, aboutIndex,
+			recommendIndex;
 
 	private View.OnClickListener mOnClickListener = new View.OnClickListener() {
 
@@ -79,7 +83,7 @@ public class PopupMenu extends PopupWindow {
 		tvMain = view.findViewById(R.id.rl_main);
 		tvRecord = view.findViewById(R.id.rl_record);
 		tvTask = view.findViewById(R.id.rl_task);
-		tvRecommend = view.findViewById(R.id.ll_recommend);
+		tvRecommend = view.findViewById(R.id.rl_recommend);
 		tvHelp = view.findViewById(R.id.rl_help);
 		tvAbout = view.findViewById(R.id.rl_about);
 		mainIndex = (ImageView) view.findViewById(R.id.index_main);
@@ -87,6 +91,10 @@ public class PopupMenu extends PopupWindow {
 		taskIndex = (ImageView) view.findViewById(R.id.index_task);
 		helpIndex = (ImageView) view.findViewById(R.id.index_help);
 		aboutIndex = (ImageView) view.findViewById(R.id.index_about);
+		recommendIndex = (ImageView) view.findViewById(R.id.index_recommend);
+		boolean isVisible = DefaultProperties.getBoolPref(context,
+				KEY_SHARE_SUCCESS, true);
+		recommendIndex.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
 
 		tvMain.setOnClickListener(mOnClickListener);
 		tvRecord.setOnClickListener(mOnClickListener);

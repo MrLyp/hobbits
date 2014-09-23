@@ -10,6 +10,7 @@ import cn.gandalf.task.BaseTask;
 public class QueryMessageTask extends BaseTask {
 
 	private MessageList mList;
+	private int newCount;
 
 	public QueryMessageTask(Context context) {
 		super(context);
@@ -19,7 +20,7 @@ public class QueryMessageTask extends BaseTask {
 	protected Object doInBackground(Void... arg0) {
 		try {
 			mList = HttpManager.processApi(HttpManager.getMsgParam());
-			GlobalValue.getIns(mContext).updateMessages(mList);
+			newCount = GlobalValue.getIns(mContext).updateMessages(mList);
 			return ECode.SUCCESS;
 		} catch (Exception e) {
 
@@ -28,9 +29,7 @@ public class QueryMessageTask extends BaseTask {
 	}
 
 	public int getNewCount() {
-		if (mList == null)
-			return 0;
-		return mList.size();
+		return newCount;
 	}
 
 }

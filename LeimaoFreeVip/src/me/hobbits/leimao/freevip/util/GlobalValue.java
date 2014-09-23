@@ -18,6 +18,7 @@ import me.hobbits.leimao.freevip.model.Message;
 import me.hobbits.leimao.freevip.model.MessageList;
 import me.hobbits.leimao.freevip.model.SignInSuccess;
 import me.hobbits.leimao.freevip.model.TaskList;
+import me.hobbits.leimao.freevip.util.ShareUtils.ShareChannel;
 import android.content.Context;
 import cn.gandalf.util.PersistenceManager;
 
@@ -44,6 +45,7 @@ public class GlobalValue {
 	private ExchangeHandler mExchangeHandler;
 	private MessageHandler mMessageHandler;
 	private IncomeHandler mIncomeHandler;
+	private ShareChannel mShareChannel = null;
 
 	public static GlobalValue getIns(Context context) {
 		if (mIns == null) {
@@ -146,13 +148,16 @@ public class GlobalValue {
 		return mTaskList;
 	}
 
-	public void updateMessages(MessageList list) {
+	public int updateMessages(MessageList list) {
 		if (list == null || list.isEmpty())
-			return;
+			return 0;
+		int before = mMessageHandler.getCount();
 		for (Message m : list) {
 			mMessageHandler.insertMessage(m);
 		}
 		mMessages = mMessageHandler.queryAllMessage();
+		int newCount = mMessageHandler.getCount() - before;
+		return newCount;
 	}
 
 	public List<Message> getMessageList() {
@@ -189,6 +194,14 @@ public class GlobalValue {
 		if (mIncomes == null)
 			mIncomes = mIncomeHandler.queryAllIncome();
 		return mIncomes;
+	}
+	
+	public void setShareChannel (ShareChannel channel) {
+		mShareChannel = channel;
+	}
+	
+	public ShareChannel getShareChannel() {
+		return mShareChannel;
 	}
 
 }

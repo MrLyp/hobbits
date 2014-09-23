@@ -74,7 +74,7 @@
         android:id="@+id/sold_out"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#4feeeeee"
+        android:background="#5feeeeee"
         android:visibility="gone" >
 
         <ImageView

@@ -12,7 +12,8 @@
         android:layout_height="@dimen/widget_popup_menu_item_height"
         android:background="@drawable/bkg_item_menu"
         android:gravity="center"
-        android:textColor="@color/text_green_light" />
+        android:textColor="@color/text_green_light"
+        android:textSize="14sp" />
 
     <View
         android:layout_width="@dimen/widget_popup_menu_item_width"
@@ -40,7 +41,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/title_main" />
+            android:text="@string/title_main"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <ImageView
@@ -73,7 +75,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/title_record" />
+            android:text="@string/title_record"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <ImageView
@@ -106,7 +109,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/title_task" />
+            android:text="@string/title_task"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <ImageView
@@ -117,31 +121,48 @@
         android:paddingRight="@dimen/widget_popup_menu_divider_padding"
         android:src="@color/divider_grey" />
 
-    <LinearLayout
-        android:id="@+id/ll_recommend"
+    <RelativeLayout
+        android:id="@+id/rl_recommend"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bkg_item_menu"
-        android:orientation="vertical" >
+        android:background="@drawable/bkg_item_menu" >
 
-        <TextView
-            android:id="@+id/tv_recommend"
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/index_recommend"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingTop="5dp"
-            android:text="@string/title_recommend" />
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:paddingLeft="35dp"
+            android:src="@drawable/ic_circle_red"
+            android:textSize="14sp" />
 
-        <TextView
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="5dp"
-            android:paddingTop="3dp"
-            android:text="送迅雷白金会员"
-            android:textColor="#ff0000"
-            android:textSize="11sp" />
-    </LinearLayout>
+            android:layout_centerInParent="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_recommend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingTop="5dp"
+                android:text="@string/title_recommend" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingBottom="5dp"
+                android:paddingTop="3dp"
+                android:text="送迅雷白金会员"
+                android:textColor="#ff0000"
+                android:textSize="12sp"
+                 />
+        </LinearLayout>
+    </RelativeLayout>
 
     <ImageView
         android:layout_width="@dimen/widget_popup_menu_item_width"
@@ -173,7 +194,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/title_help" />
+            android:text="@string/title_help"
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <ImageView
@@ -206,7 +228,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:gravity="center"
-            android:text="@string/title_about" />
+            android:text="@string/title_about"
+            android:textSize="14sp" />
     </RelativeLayout>
 
 </LinearLayout>

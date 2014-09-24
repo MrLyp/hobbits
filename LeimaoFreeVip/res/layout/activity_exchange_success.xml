@@ -127,7 +127,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/btn_white"
             android:text="返回首页"
-            android:textColor="@color/text_green_light" />
+            android:textColor="@color/selector_text_green_light" />
 
         <Button
             android:id="@+id/jump_to_record"
@@ -136,7 +136,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_white"
             android:text="查看兑换记录"
-            android:textColor="@color/text_green_light" />
+            android:textColor="@color/selector_text_green_light" />
     </LinearLayout>
 
 </LinearLayout>

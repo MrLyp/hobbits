@@ -13,7 +13,7 @@
         android:background="@drawable/bkg_item_menu"
         android:gravity="center"
         android:textColor="@color/text_green_light"
-        android:textSize="14sp" />
+        android:textSize="@dimen/popupmenu_text_size" />
 
     <View
         android:layout_width="@dimen/widget_popup_menu_item_width"
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:paddingLeft="40dp"
+            android:paddingLeft="35dp"
             android:src="@drawable/ic_circle_green" />
 
         <TextView
@@ -42,7 +42,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/title_main"
-            android:textSize="14sp" />
+            android:textSize="@dimen/popupmenu_text_size" />
     </RelativeLayout>
 
     <ImageView
@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:paddingLeft="40dp"
+            android:paddingLeft="35dp"
             android:src="@drawable/ic_circle_green"
             android:visibility="invisible" />
 
@@ -76,7 +76,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/title_record"
-            android:textSize="14sp" />
+            android:textSize="@dimen/popupmenu_text_size" />
     </RelativeLayout>
 
     <ImageView
@@ -99,7 +99,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:paddingLeft="40dp"
+            android:paddingLeft="35dp"
             android:src="@drawable/ic_circle_green"
             android:visibility="invisible" />
 
@@ -110,7 +110,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/title_task"
-            android:textSize="14sp" />
+            android:textSize="@dimen/popupmenu_text_size" />
     </RelativeLayout>
 
     <ImageView
@@ -135,7 +135,7 @@
             android:layout_centerVertical="true"
             android:paddingLeft="35dp"
             android:src="@drawable/ic_circle_red"
-            android:textSize="14sp" />
+            android:textSize="@dimen/popupmenu_text_size" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -149,6 +149,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:paddingTop="5dp"
+                android:textSize="@dimen/popupmenu_text_size"
                 android:text="@string/title_recommend" />
 
             <TextView
@@ -184,7 +185,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:paddingLeft="40dp"
+            android:paddingLeft="35dp"
             android:src="@drawable/ic_circle_green"
             android:visibility="invisible" />
 
@@ -195,7 +196,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/title_help"
-            android:textSize="14sp" />
+            android:textSize="@dimen/popupmenu_text_size" />
     </RelativeLayout>
 
     <ImageView
@@ -218,7 +219,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:paddingLeft="40dp"
+            android:paddingLeft="35dp"
             android:src="@drawable/ic_circle_green"
             android:visibility="invisible" />
 
@@ -229,7 +230,7 @@
             android:layout_centerInParent="true"
             android:gravity="center"
             android:text="@string/title_about"
-            android:textSize="14sp" />
+            android:textSize="@dimen/popupmenu_text_size" />
     </RelativeLayout>
 
 </LinearLayout>

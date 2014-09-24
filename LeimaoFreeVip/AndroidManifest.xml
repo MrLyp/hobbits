@@ -22,7 +22,7 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <supports-screens
         android:anyDensity="true"
@@ -41,6 +41,13 @@
             android:value="@string/app_id_wanpu" />
         <meta-data
             android:name="APP_PID"
+            android:value="test" />
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5413dcbcfd98c50ada042887" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
             android:value="test" />
 
         <activity
@@ -90,12 +97,13 @@
                 <action android:name="com.sina.weibo.sdk.action.ACTION_SDK_REQ_ACTIVITY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter> >
+            </intent-filter>
+ >
         </activity>
         <activity
             android:name="me.hobbits.leimao.freevip.wxapi.WXEntryActivity"
-            android:screenOrientation="portrait"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
 

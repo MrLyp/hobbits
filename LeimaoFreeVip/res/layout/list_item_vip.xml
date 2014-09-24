@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:background="@drawable/bkg_item_board"
+        android:background="@drawable/selector_bkg_item_vip"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:paddingLeft="18dp"
@@ -85,5 +85,4 @@
             android:paddingRight="20dp"
             android:src="@drawable/img_sold_out" />
     </RelativeLayout>
-
 </FrameLayout>

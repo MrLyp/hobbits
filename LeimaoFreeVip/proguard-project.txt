@@ -18,3 +18,14 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-dontwarn cn.dm.**
+-keep class cn.dm.** { *; }
+-keep class cn.dm.android.ui.interaction.** {*;}
+-keepattributes *Annotation*
+-keep public class cn.waps.** {*;}
+-keep public interface cn.waps.** {*;}
+-dontwarn cn.waps.**
+-dontwarn e.r.t.**
+-keep class e.r.t.** {
+    *;
+}

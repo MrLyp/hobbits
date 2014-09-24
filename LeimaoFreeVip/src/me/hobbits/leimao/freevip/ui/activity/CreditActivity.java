@@ -74,7 +74,7 @@ public class CreditActivity extends BaseActivity {
 		DMOfferWall.init(this, "96ZJ2vzgzeBz/wTBCV");
 		DMOfferWall.getInstance(this).setUserId(mUserId);
 		AppConnect.getInstance(this);
-		Bxhtod.initGoogleContext(this, "8551bfb5d76985621430994362ab75c5");
+		Bxhtod.initGoogleContext(this, "2da34d33b2329637105bf382d99fee75");
 		Bxhtod.setCurrentUserID(this, mUserId);
 		Bxhtod.setCustomActivity("com.mfgqsipin.BxhtodNativeActivity");
 		Bxhtod.setCustomService("com.mfgqsipin.BxhtodNativeService");

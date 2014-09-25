@@ -83,7 +83,9 @@ public class RecordDetailActivity extends BaseActivity implements
 		mExchange = (Exchange) obj;
 		mLogo.setImageUrlAndLoad(mExchange.getImg());
 		mAccount.setText("会员账号 : " + mExchange.getCard_no());
-		mDetail.setText(mExchange.getDetail());
+		String detail = mExchange.getDetail();
+		detail = detail.replaceAll("\\\\n", "");
+		mDetail.setText(detail);
 		if (StringUtils.isEmpty(mExchange.getCard_pwd())) {
 			findViewById(R.id.ll_pwd).setVisibility(View.INVISIBLE);
 			mValidTime.setText("有效期信息请查看如下注意事项");

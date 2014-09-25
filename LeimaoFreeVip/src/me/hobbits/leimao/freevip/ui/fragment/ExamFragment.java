@@ -19,11 +19,11 @@ public class ExamFragment extends BaseFragment implements OnItemClickListener {
 			R.drawable.ic_ask02, R.drawable.ic_ask03, R.drawable.ic_ask04,
 			R.drawable.ic_ask05 };
 	private final String[] urls = new String[] {
-			"http://tcvideo.bitclock.cn/index.php/Web/help?id=1",
-			"http://tcvideo.bitclock.cn/index.php/Web/help?id=2",
-			"http://tcvideo.bitclock.cn/index.php/Web/help?id=3",
-			"http://tcvideo.bitclock.cn/index.php/Web/help?id=4",
-			"http://tcvideo.bitclock.cn/index.php/Web/help?id=5" };
+			"http://tcvideo.bitclock.cn/index.php/Web/diaocha?id=1",
+			"http://tcvideo.bitclock.cn/index.php/Web/diaocha?id=2",
+			"http://tcvideo.bitclock.cn/index.php/Web/diaocha?id=3",
+			"http://tcvideo.bitclock.cn/index.php/Web/diaocha?id=4",
+			"http://tcvideo.bitclock.cn/index.php/Web/diaocha?id=5" };
 
 	@Override
 	protected int getLayoutId() {

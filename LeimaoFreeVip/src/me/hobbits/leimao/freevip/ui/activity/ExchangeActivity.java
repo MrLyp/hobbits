@@ -80,7 +80,9 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 		mRemain.setText("余" + (int) mGoods.getQuantity() + "名额");
 		mPrice.setText("需" + (int) mGoods.getPrice() + "点数");
 		mName.setText(mGoods.getName());
-		mDetail.setText(mGoods.getDetail());
+		String detail = mGoods.getDetail();
+		detail = detail.replaceAll("\\\\n", "");
+		mDetail.setText(detail);
 		mBalance = GlobalValue.getIns(this).getBalance();
 		if (mBalance != null) {
 			mAccount.setText("我的点数：" + mBalance.getBalance() + "点数");

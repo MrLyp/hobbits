@@ -103,12 +103,13 @@ public class ExchangeSuccessActivity extends BaseActivity implements
 			return;
 		mGoods = (Goods) obj;
 		mLogo.setImageUrlAndLoad(mGoods.getImg());
-		mAccount.setText("会员账号 : " + mCardInfo.getCard_no());
 		mDetail.setText(mGoods.getDetail());
 		if (StringUtils.isEmpty(mCardInfo.getCard_pwd())) {
+			mAccount.setText("激活码 : " + mCardInfo.getCard_no());
 			findViewById(R.id.ll_pwd).setVisibility(View.INVISIBLE);
 			mValidTime.setText("有效期信息请查看如下注意事项");
 		} else {
+			mAccount.setText("卡号 : " + mCardInfo.getCard_no());
 			mPwd.setText("密码 : " + mCardInfo.getCard_pwd());
 			mValidTime.setText("有效期至" + mCardInfo.getCard_expire_time());
 		}

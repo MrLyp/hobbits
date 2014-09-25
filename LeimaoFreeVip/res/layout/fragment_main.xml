@@ -94,7 +94,8 @@
                     android:id="@+id/fl_credit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:background="@drawable/selector_text_green_dark" >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -102,8 +103,7 @@
                         android:layout_gravity="center"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/ic_next_green"
-                        android:text="获取点数"
-                        android:textColor="@color/selector_text_green_dark" />
+                        android:text="获取点数" />
                 </FrameLayout>
             </LinearLayout>
 

@@ -5,6 +5,7 @@ import me.hobbits.leimao.freevip.model.Balance;
 import me.hobbits.leimao.freevip.model.Goods;
 import me.hobbits.leimao.freevip.model.SubmitSuccess;
 import me.hobbits.leimao.freevip.net.HttpManager;
+import me.hobbits.leimao.freevip.ui.fragment.HelpFragment;
 import me.hobbits.leimao.freevip.ui.widget.AlertDialog;
 import me.hobbits.leimao.freevip.ui.widget.TitlebarView;
 import me.hobbits.leimao.freevip.util.GlobalValue;
@@ -91,7 +92,10 @@ public class ExchangeActivity extends BaseFragmentActivity implements
 		if (v == mTitlebarView.getLeftButton()) {
 			finish();
 		} else if (v == mTitlebarView.getRightButton()) {
-			startActivity(new Intent(this, WebViewActivity.class));
+			Intent intent = new Intent(this, WebViewActivity.class);
+			intent.putExtra(WebViewActivity.EXTRA_TITLE, "帮助");
+			intent.putExtra(WebViewActivity.EXTRA_URL, HelpFragment.URL_HELP);
+			startActivity(intent);
 		} else if (v == mConfirm) {
 			if (mBalance.getBalance() < mGoods.getPrice())
 				showCreditLowDialog();

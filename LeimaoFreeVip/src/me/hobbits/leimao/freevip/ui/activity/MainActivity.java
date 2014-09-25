@@ -1,13 +1,17 @@
 package me.hobbits.leimao.freevip.ui.activity;
 
 import me.hobbits.leimao.freevip.R;
+import me.hobbits.leimao.freevip.model.BasicConfig;
+import me.hobbits.leimao.freevip.model.BasicConfig.Version;
 import me.hobbits.leimao.freevip.model.SignInSuccess;
+import me.hobbits.leimao.freevip.net.HttpManager;
 import me.hobbits.leimao.freevip.task.QueryMessageTask;
 import me.hobbits.leimao.freevip.ui.fragment.AboutFragment;
 import me.hobbits.leimao.freevip.ui.fragment.HelpFragment;
 import me.hobbits.leimao.freevip.ui.fragment.MainFragment;
 import me.hobbits.leimao.freevip.ui.fragment.RecordFragment;
 import me.hobbits.leimao.freevip.ui.fragment.TaskFragment;
+import me.hobbits.leimao.freevip.ui.widget.AlertDialog;
 import me.hobbits.leimao.freevip.ui.widget.PopupMenu;
 import me.hobbits.leimao.freevip.ui.widget.PopupMenu.OnPopupMenuClickListener;
 import me.hobbits.leimao.freevip.ui.widget.ShareDialog;
@@ -21,17 +25,20 @@ import me.hobbits.leimao.freevip.util.WeixinManager;
 import me.hobbits.leimao.freevip.wxapi.WeiboTransferActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Toast;
 import cn.gandalf.task.BaseTask;
 import cn.gandalf.task.BaseTask.Callback;
+import cn.gandalf.task.HttpConnectTask;
 import cn.gandalf.util.DefaultProperties;
-import cn.gandalf.util.PreferenceManager;
 
 public class MainActivity extends BaseFragmentActivity implements
 		OnClickListener {
@@ -156,6 +163,7 @@ public class MainActivity extends BaseFragmentActivity implements
 		case FRIEND_CIRCLE:
 			sc = new ShareContent();
 			sc.title = "迅雷白金会员免费送啦！用来干嘛？你懂的!";
+			sc.content = "用来干嘛？你懂的！小伙伴们速速领取吧！";
 			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
 			sc.url = ShareUtils.URL_SHARE;
 			mWeiXinManager.sendMessage(mContext, sc, true);
@@ -197,6 +205,7 @@ public class MainActivity extends BaseFragmentActivity implements
 		mWeiXinManager = new WeixinManager(this);
 		initContent();
 		initMessageTask();
+		initUpdateTask();
 	};
 
 	@Override
@@ -243,7 +252,8 @@ public class MainActivity extends BaseFragmentActivity implements
 			@Override
 			public void onSuccess(BaseTask task, Object t) {
 				if (mTask.getNewCount() > 0) {
-					DefaultProperties.setBoolPref(mContext, TitlebarView.KEY_NEW_MESSAGE_CLICKED, false);
+					DefaultProperties.setBoolPref(mContext,
+							TitlebarView.KEY_NEW_MESSAGE_CLICKED, false);
 					mTitlebarView.setDotVisibility(View.VISIBLE);
 				} else {
 					mTitlebarView.setDotVisibility(View.INVISIBLE);
@@ -256,6 +266,48 @@ public class MainActivity extends BaseFragmentActivity implements
 			}
 		});
 		mTask.execute();
+	}
+
+	private void initUpdateTask() {
+		final HttpConnectTask mTask = new HttpConnectTask(mContext,
+				HttpManager.getBasicConfigParam());
+		mTask.setShowCodeMsg(false);
+		mTask.setShowProgessDialog(false);
+		mTask.setCallback(new Callback() {
+
+			@Override
+			public void onSuccess(BaseTask task, Object t) {
+				BasicConfig config = (BasicConfig) mTask.getResult();
+				GlobalValue.getIns(mContext).updateBasicConfig(config);
+				showUpdateDialog();
+			}
+
+			@Override
+			public void onFail(BaseTask task, Object t) {
+			}
+		});
+		mTask.execute();
+	}
+
+	private void showUpdateDialog() {
+		BasicConfig config = GlobalValue.getIns(mContext).getBasicConfig();
+		if (config == null)
+			return;
+		final Version version = config.getVersion();
+		if (version.getNeed_update() == 0)
+			return;
+		AlertDialog dialog = new AlertDialog(mContext);
+		dialog.setTitle("更新提示").setContent(version.getRelease_note())
+				.setContentGravity(Gravity.LEFT)
+				.setPositiveButton("点击下载", new OnClickListener() {
+
+					@Override
+					public void onClick(View arg0) {
+						startActivity(new Intent(Intent.ACTION_VIEW, Uri
+								.parse(version.getDownload_url())));
+					}
+				});
+		dialog.show();
 	}
 
 	private long mLastExitTime;

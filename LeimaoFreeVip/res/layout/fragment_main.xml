@@ -103,7 +103,8 @@
                         android:layout_gravity="center"
                         android:drawablePadding="5dp"
                         android:drawableRight="@drawable/ic_next_green"
-                        android:text="获取点数" />
+                        android:text="获取点数"
+                        android:textColor="@color/text_green_dark" />
                 </FrameLayout>
             </LinearLayout>
 

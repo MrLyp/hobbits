@@ -18,6 +18,9 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep class * implements cn.gandalf.json.JsonItem {
+	*;
+}
 -dontwarn cn.dm.**
 -keep class cn.dm.** { *; }
 -keep class cn.dm.android.ui.interaction.** {*;}
@@ -29,3 +32,8 @@
 -keep class e.r.t.** {
     *;
 }
+-libraryjars /libs/key-hobbits-me.jar
+-keep class **.R$* {
+*;
+}
+-dontwarn com.mfgqsipin.**

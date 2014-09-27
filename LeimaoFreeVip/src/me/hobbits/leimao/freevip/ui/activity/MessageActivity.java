@@ -59,6 +59,7 @@ public class MessageActivity extends BaseActivity {
 		super.initViews();
 		mTitlebarView = (TitlebarView) findViewById(R.id.titlebar);
 		mTitlebarView.setOnLeftButtonClickListener(mOnClickListener);
+		mTitlebarView.setDotVisibility(View.INVISIBLE);
 
 		View emptyView = getLayoutInflater().inflate(
 				R.layout.list_item_message_empty, null);

@@ -66,25 +66,27 @@ public class MainActivity extends BaseFragmentActivity implements
 
 		@Override
 		public void onPopupMenuClick(int index) {
-			mTitlebarView.setDotVisibility(View.GONE);
 			if (index == PopupMenu.INDEX_MAIN) {
 				switchFragment(mMainFragment);
 				mTitlebarView.setTitleText("");
 				mTitlebarView.setTitleImageResource(R.drawable.img_title);
 				mTitlebarView.setRightImageResource(R.drawable.ic_message);
 				mTitlebarView.getRightButton().setVisibility(View.VISIBLE);
+				mTitlebarView.initDotVisibility();
 			} else if (index == PopupMenu.INDEX_RECORD) {
 				switchFragment(mRecordFragment);
 				mTitlebarView.setTitleTextResource(R.string.title_record);
 				mTitlebarView.setTitleImageDrawable(null);
 				mTitlebarView.setRightImageResource(R.drawable.ic_refresh);
 				mTitlebarView.getRightButton().setVisibility(View.VISIBLE);
+				mTitlebarView.setDotVisibility(View.INVISIBLE);
 			} else if (index == PopupMenu.INDEX_TASK) {
 				switchFragment(mTaskFragment);
 				mTitlebarView.setTitleTextResource(R.string.title_task);
 				mTitlebarView.setTitleImageDrawable(null);
 				mTitlebarView.setRightImageResource(R.drawable.ic_refresh);
 				mTitlebarView.getRightButton().setVisibility(View.VISIBLE);
+				mTitlebarView.setDotVisibility(View.INVISIBLE);
 			} else if (index == PopupMenu.INDEX_RECOMMEND) {
 				mShareDialog.show();
 			} else if (index == PopupMenu.INDEX_HELP) {
@@ -92,11 +94,13 @@ public class MainActivity extends BaseFragmentActivity implements
 				mTitlebarView.setTitleTextResource(R.string.title_help);
 				mTitlebarView.setTitleImageDrawable(null);
 				mTitlebarView.setRightImageResource(R.drawable.ic_message);
+				mTitlebarView.initDotVisibility();
 			} else if (index == PopupMenu.INDEX_ABOUT) {
 				switchFragment(mAboutFragment);
 				mTitlebarView.setTitleTextResource(R.string.title_about);
 				mTitlebarView.setTitleImageDrawable(null);
 				mTitlebarView.getRightButton().setVisibility(View.INVISIBLE);
+				mTitlebarView.setDotVisibility(View.INVISIBLE);
 			}
 
 		}
@@ -162,7 +166,7 @@ public class MainActivity extends BaseFragmentActivity implements
 			break;
 		case FRIEND_CIRCLE:
 			sc = new ShareContent();
-			sc.title = "迅雷白金会员免费送啦！用来干嘛？你懂的!";
+			sc.title = "迅雷白金会员免费送啦！";
 			sc.content = "用来干嘛？你懂的！小伙伴们速速领取吧！";
 			sc.imagePath = ShareUtils.getShareImagePath(mContext, true);
 			sc.url = ShareUtils.URL_SHARE;
@@ -207,6 +211,11 @@ public class MainActivity extends BaseFragmentActivity implements
 		initMessageTask();
 		initUpdateTask();
 	};
+	
+	protected void onResume() {
+		super.onResume();
+		mTitlebarView.initDotVisibility();
+	}
 
 	@Override
 	protected int getLayoutId() {
@@ -220,9 +229,9 @@ public class MainActivity extends BaseFragmentActivity implements
 		mTitlebarView.setOnLeftButtonClickListener(this);
 		mTitlebarView.setOnRightButtonClickListener(this);
 		mTitlebarView.setTitleText("");
-		mTitlebarView.setDotVisibility(View.VISIBLE);
 		mTitlebarView.setTitleImageResource(R.drawable.img_title);
 		mTitlebarView.setRightImageResource(R.drawable.ic_message);
+		mTitlebarView.initLeftDotVisibility();
 		mPopupMenu = new PopupMenu(this);
 		SignInSuccess info = GlobalValue.getIns(mContext).getUserInfo();
 		String id = "";
@@ -255,8 +264,6 @@ public class MainActivity extends BaseFragmentActivity implements
 					DefaultProperties.setBoolPref(mContext,
 							TitlebarView.KEY_NEW_MESSAGE_CLICKED, false);
 					mTitlebarView.setDotVisibility(View.VISIBLE);
-				} else {
-					mTitlebarView.setDotVisibility(View.INVISIBLE);
 				}
 			}
 

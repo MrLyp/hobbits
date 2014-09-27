@@ -36,9 +36,7 @@ public class ShareUtils {
 		WECHAT, FRIEND_CIRCLE, QQ, WEIBO
 	}
 
-	private static String mShareImagePath = null;
-
-	public static void initShareFile(Context context, boolean isLogo) {
+	public static String getShareImagePath(Context context, boolean isLogo) {
 		String dirPath = PATH_TEMP;
 		File dir = new File(dirPath);
 		if (!dir.exists()) {
@@ -54,17 +52,8 @@ public class ShareUtils {
 		}
 		shareImage = new File(dir, isLogo ? "logo.png" : "share.jpg");
 		if (shareImage.exists())
-			mShareImagePath = shareImage.getAbsolutePath();
-	}
-
-	public static String getShareImagePath(Context context, boolean isLogo) {
-		if (mShareImagePath == null || !(new File(mShareImagePath).exists())) {
-			try {
-				initShareFile(context, isLogo);
-			} catch (Exception e) {
-			}
-		}
-		return mShareImagePath;
+			return shareImage.getAbsolutePath();
+		return null;
 	}
 
 	public static void updateShareResult(final Context context) {
@@ -82,7 +71,7 @@ public class ShareUtils {
 				if (res.getResult() == 1) {
 					Toast.makeText(context, "分享成功", Toast.LENGTH_SHORT).show();
 					DefaultProperties.setBoolPref(context,
-							PopupMenu.KEY_SHARE_SUCCESS, true);
+							PopupMenu.KEY_NOT_SHARE, false);
 				}
 			}
 

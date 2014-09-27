@@ -153,6 +153,7 @@ public class HttpManager extends BaseHttpManager {
 			addNameValuePair("system_version", SystemUtils.getSystemVersion());
 			addNameValuePair("app_name", mContext.getPackageName());
 			addNameValuePair("platform_model", android.os.Build.MODEL);
+			addNameValuePair("channel", SystemUtils.getChannel(mContext));
 			setUsrInfo();
 		}
 

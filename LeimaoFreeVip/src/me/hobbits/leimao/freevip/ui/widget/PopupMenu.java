@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class PopupMenu extends PopupWindow {
 
-	public static final String KEY_SHARE_SUCCESS = "key_share_success";
+	public static final String KEY_NOT_SHARE = "key_not_share_success";
 	public static final int INDEX_MAIN = 0;
 	public static final int INDEX_RECORD = 1;
 	public static final int INDEX_TASK = 2;
@@ -93,7 +93,7 @@ public class PopupMenu extends PopupWindow {
 		aboutIndex = (ImageView) view.findViewById(R.id.index_about);
 		recommendIndex = (ImageView) view.findViewById(R.id.index_recommend);
 		boolean isVisible = DefaultProperties.getBoolPref(context,
-				KEY_SHARE_SUCCESS, true);
+				KEY_NOT_SHARE, true);
 		recommendIndex.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
 
 		tvMain.setOnClickListener(mOnClickListener);

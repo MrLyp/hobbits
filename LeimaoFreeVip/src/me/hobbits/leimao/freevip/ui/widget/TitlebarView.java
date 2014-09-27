@@ -1,5 +1,6 @@
 package me.hobbits.leimao.freevip.ui.widget;
 
+import cn.gandalf.util.DefaultProperties;
 import me.hobbits.leimao.freevip.R;
 import me.hobbits.leimao.freevip.util.UnreadImageUtils;
 import android.content.Context;
@@ -24,6 +25,9 @@ public class TitlebarView extends RelativeLayout {
 	private TextView tvTitle;
 
 	private ImageView ivDot;
+	private ImageView ivLeftDot;
+
+	private Context mContext;
 
 	public TitlebarView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -31,6 +35,7 @@ public class TitlebarView extends RelativeLayout {
 	}
 
 	private void init(Context context, AttributeSet attrs) {
+		mContext = context;
 		mTitlebarView = LayoutInflater.from(context).inflate(
 				R.layout.widget_titlebar, this);
 
@@ -38,7 +43,7 @@ public class TitlebarView extends RelativeLayout {
 		ibRight = (ImageButton) mTitlebarView.findViewById(R.id.ib_right);
 		tvTitle = (TextView) mTitlebarView.findViewById(R.id.tv_title);
 		ivDot = (ImageView) mTitlebarView.findViewById(R.id.iv_dot);
-		UnreadImageUtils.getInstance(context).initUnreadImageVisibility(ivDot, KEY_NEW_MESSAGE_CLICKED);
+		ivLeftDot = (ImageView) mTitlebarView.findViewById(R.id.iv_dot_left);
 
 		if (attrs != null) {
 			TypedArray ta = context.obtainStyledAttributes(attrs,
@@ -116,6 +121,18 @@ public class TitlebarView extends RelativeLayout {
 
 	public void setDotVisibility(int visibility) {
 		ivDot.setVisibility(visibility);
+	}
+
+	public void initDotVisibility() {
+		UnreadImageUtils.getInstance(mContext).initUnreadImageVisibility(ivDot,
+				KEY_NEW_MESSAGE_CLICKED);
+		;
+	}
+
+	public void initLeftDotVisibility() {
+		boolean isVisible = DefaultProperties.getBoolPref(mContext,
+				PopupMenu.KEY_NOT_SHARE, true);
+		ivLeftDot.setVisibility(isVisible ? View.VISIBLE : View.INVISIBLE);
 	}
 
 }

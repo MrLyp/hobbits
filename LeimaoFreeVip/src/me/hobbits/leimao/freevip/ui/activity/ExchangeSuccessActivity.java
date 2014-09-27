@@ -103,7 +103,9 @@ public class ExchangeSuccessActivity extends BaseActivity implements
 			return;
 		mGoods = (Goods) obj;
 		mLogo.setImageUrlAndLoad(mGoods.getImg());
-		mDetail.setText(mGoods.getDetail());
+		String detail = mGoods.getDetail();
+		detail = detail.replaceAll("\\\\n", "");
+		mDetail.setText(detail);
 		if (StringUtils.isEmpty(mCardInfo.getCard_pwd())) {
 			mAccount.setText("激活码 : " + mCardInfo.getCard_no());
 			findViewById(R.id.ll_pwd).setVisibility(View.INVISIBLE);

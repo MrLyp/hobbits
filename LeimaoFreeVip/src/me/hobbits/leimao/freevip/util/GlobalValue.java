@@ -62,6 +62,8 @@ public class GlobalValue {
 	}
 
 	public void updateUserInfo(SignInSuccess info) {
+		if (info == null)
+			return;
 		mUserInfo = info;
 		PersistenceManager.getInstance(mContext).putObject(KEY_USER_INFO,
 				mUserInfo);
@@ -76,6 +78,8 @@ public class GlobalValue {
 	}
 
 	public void updateBalance(Balance balance) {
+		if (balance == null)
+			return;
 		mBalance = balance;
 		PersistenceManager.getInstance(mContext).putObject(KEY_BALANCE,
 				mBalance);
@@ -90,6 +94,8 @@ public class GlobalValue {
 	}
 
 	public void updateBanners(BannerList list) {
+		if(list == null)
+			return;
 		mBannerList = list;
 		PersistenceManager.getInstance(mContext).putObject(KEY_BANNER,
 				mBannerList);
@@ -104,6 +110,8 @@ public class GlobalValue {
 	}
 
 	public void updateBasicConfig(BasicConfig config) {
+		if (config == null)
+			return;
 		mBasicConfig = config;
 		PersistenceManager.getInstance(mContext).putObject(KEY_BASIC,
 				mBasicConfig);
@@ -117,6 +125,8 @@ public class GlobalValue {
 	}
 
 	public void updateGoodsList(GoodsList list) {
+		if (list == null)
+			return;
 		mGoodsList = list;
 		PersistenceManager.getInstance(mContext).putObject(KEY_GOODS,
 				mGoodsList);
@@ -137,6 +147,8 @@ public class GlobalValue {
 	}
 
 	public void updateTasks(TaskList list) {
+		if (list == null)
+			return;
 		mTaskList = list;
 		PersistenceManager.getInstance(mContext).putObject(KEY_TASK, mTaskList);
 	}

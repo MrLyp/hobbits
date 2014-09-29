@@ -24,7 +24,7 @@ import cn.gandalf.task.BaseTask.Callback;
 import cn.gandalf.task.HttpConnectTask;
 import cn.gandalf.widget.AsyncImageView;
 
-import com.mfgqsipin.Bxhtod;
+import com.hobbits.Qjtfgh;
 
 import e.r.t.ccafss;
 import e.r.t.os.ccbjss;
@@ -61,10 +61,10 @@ public class OfferWallFragment extends BaseFragment{
 		DMOfferWall.init(mContext, "96ZJ2vzgzeBz/wTBCV");
 		DMOfferWall.getInstance(mContext).setUserId(mUserId);
 		AppConnect.getInstance(mContext);
-		Bxhtod.initGoogleContext(mContext, "2da34d33b2329637105bf382d99fee75");
-		Bxhtod.setCurrentUserID(mContext, mUserId);
-		Bxhtod.setCustomActivity("com.mfgqsipin.BxhtodNativeActivity");
-		Bxhtod.setCustomService("com.mfgqsipin.BxhtodNativeService");
+		Qjtfgh.initGoogleContext(mContext, "2da34d33b2329637105bf382d99fee75");
+		Qjtfgh.setCurrentUserID(mContext, mUserId);
+		Qjtfgh.setCustomActivity("com.hobbits.QjtfghNativeActivity");
+		Qjtfgh.setCustomService("com.hobbits.QjtfghNativeService");
 		ccafss.getInstance(mContext).init("9bb91a86a07d0de5", "e315708d2d846002",
 				false);
 		ccbjss.getInstance(mContext).mmendd();
@@ -79,7 +79,7 @@ public class OfferWallFragment extends BaseFragment{
 		} else if (task.getName().equals("waps")) {
 			AppConnect.getInstance(mContext).showOffers(mContext, mUserId);
 		} else if (task.getName().equals("dianle")) {
-			Bxhtod.showOffers(mContext);
+			Qjtfgh.showOffers(mContext);
 		} else if (task.getName().equals("youmi")) {
 			ccbjss.getInstance(mContext).mmfqdd();
 		}

@@ -116,13 +116,13 @@
         <service android:name="cn.dm.android.DMService" />
 
         <!-- dianle -->
-        <service android:name="com.mfgqsipin.BxhtodNativeService" />
+        <service android:name="com.hobbits.QjtfghNativeService" />
 
         <activity
-            android:name="com.mfgqsipin.BxhtodNativeActivity"
+            android:name="com.hobbits.QjtfghNativeActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name="com.mfgqsipin.BxhtodNativeDetailActivity"
+            android:name="com.hobbits.QjtfghNativeDetailActivity"
             android:screenOrientation="portrait" />
 
         <!-- youmi -->

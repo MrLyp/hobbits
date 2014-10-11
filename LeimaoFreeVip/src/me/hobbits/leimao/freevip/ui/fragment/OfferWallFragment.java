@@ -57,7 +57,8 @@ public class OfferWallFragment extends BaseFragment{
 
 	private void initOfferWalls() {
 		SignInSuccess userInfo = GlobalValue.getIns(mContext).getUserInfo();
-		mUserId = userInfo.getUser_id();
+		if (userInfo != null)
+			mUserId = userInfo.getUser_id();
 		DMOfferWall.init(mContext, "96ZJ2vzgzeBz/wTBCV");
 		DMOfferWall.getInstance(mContext).setUserId(mUserId);
 		AppConnect.getInstance(mContext);
